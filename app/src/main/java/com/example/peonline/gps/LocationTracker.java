@@ -107,6 +107,7 @@ public class LocationTracker extends FragmentActivity implements OnMapReadyCallb
             Log.w("location not null",  "=" + true);
         }
         latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        points.add(latLng);
         googleMap.addMarker(new MarkerOptions().position(latLng).title("My Position"));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
@@ -116,6 +117,7 @@ public class LocationTracker extends FragmentActivity implements OnMapReadyCallb
 
                 try {
                     latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    points.add(latLng);
                     googleMap.addMarker(new MarkerOptions().position(latLng).title("My Position"));
                     googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
                 } catch (SecurityException e) {
