@@ -48,10 +48,14 @@
         android:layout_height="45dp"
         android:background="@drawable/gpsbtn_background"
         android:text="ToggleButton"
+        android:textOn="ON"
+        android:textOff="OFF"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="430dp" />
+        tools:layout_editor_absoluteY="430dp"
+        android:onClick="changeStatus"
+        />
 
     <TextView
         android:id="@+id/textView2"
