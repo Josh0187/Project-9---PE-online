@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "345509767263",
+    "firebase_url": "https://peonlinevideodatabase.firebaseio.com",
+    "project_id": "peonlinevideodatabase",
+    "storage_bucket": "peonlinevideodatabase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345509767263:android:69bcbe7751aa5e14c313ea",
+        "android_client_info": {
+          "package_name": "com.example.peonline"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "345509767263-jsj2l36bl20glh5hf4bdsrfk9jcrjas0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSf-LjvrwXhdDLqwQFmhqXltgp9eJMz6I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "345509767263-jsj2l36bl20glh5hf4bdsrfk9jcrjas0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
