@@ -37,6 +37,4 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LocationTracker.class);
         startActivity(intent);
     }
-
-
 }
