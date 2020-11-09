@@ -36,8 +36,8 @@ public class LocationTracker extends FragmentActivity implements OnMapReadyCallb
     private LocationListener locationListener;
 
 
-    public LocationTracker(ArrayList<LatLng> mapPoints) {
-         points = mapPoints;
+    public LocationTracker() {
+
     }
 
 
