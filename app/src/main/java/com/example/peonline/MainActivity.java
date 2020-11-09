@@ -3,24 +3,16 @@ package com.example.peonline;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
+import com.example.peonline.gps.LocationTracker;
+import com.google.android.gms.maps.model.LatLng;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
-import android.provider.ContactsContract;
 import android.view.View;
 
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ToggleButton;
 
-import java.util.UUID;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 

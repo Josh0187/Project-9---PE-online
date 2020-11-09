@@ -1,6 +1,7 @@
 package com.example.peonline.gps;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -34,7 +35,6 @@ public class LocationTracker extends FragmentActivity implements OnMapReadyCallb
     private static final int MIN_TIME = 5000; //5 seconds
 
     private LocationListener locationListener;
-
 
     public LocationTracker(ArrayList<LatLng> mapPoints) {
          points = mapPoints;
