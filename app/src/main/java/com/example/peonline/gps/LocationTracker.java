@@ -9,14 +9,11 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
-import com.example.peonline.DataCalculation;
 import com.example.peonline.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -39,17 +36,15 @@ public class LocationTracker extends FragmentActivity implements OnMapReadyCallb
 
     private LocationListener locationListener;
 
-    // needs a default constructor in order to exist in manifest as an action
-    // so it could be activated whe user press button (@Kris)
-    public LocationTracker() { }
+    public LocationTracker(ArrayList<LatLng> mapPoints) {
+         points = mapPoints;
+    }
 
-  //function below should display map on the activity_maps.xml (line 8 code),
-  //however i got an error message. (@Kris)
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);   // u displayed activity_maps.xml but did not
-                                                   // code how fragment of the map will be added to context view
+        setContentView(R.layout.activity_maps);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -69,21 +64,7 @@ public class LocationTracker extends FragmentActivity implements OnMapReadyCallb
                 return;
             }
         }
-
-        final Button Stop = (Button) findViewById(R.id.Stop_gps_button);
-        Stop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                stopUsingGPS();            //i called your method to stop tracking (@kristina)
-            }
-        });
     }
-
-    // added for future, so stop button can open data calculation activity when pressed.
-   /* private void StopLocationTracker() {
-        Intent intent = new Intent(this, DataCalculation.class);
-        startActivity(intent);
-    }*/
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
@@ -155,6 +136,13 @@ public class LocationTracker extends FragmentActivity implements OnMapReadyCallb
         }
     }
 }
+
+
+
+
+
+
+
 
 /* please add this to where ever the code is for app startup. if no gps permission, app should not run
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PackageManager.PERMISSION_GRANTED);
