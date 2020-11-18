@@ -17,12 +17,19 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.provider.Settings;
+import android.renderscript.Sampler;
 import android.view.View;
 
 import android.view.Menu;
@@ -54,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
                 if (mFirebaseUser != null) {
                     Toast.makeText(MainActivity.this, "You are logged in", Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(MainActivity.this, home.class);
+                    Intent i = new Intent(MainActivity.this, student_main_menu.class);
                     startActivity(i);
                 } else {
                     Toast.makeText(MainActivity.this, "Login", Toast.LENGTH_SHORT).show();
@@ -71,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
     public void login(View view) {
         String email = emailID.getText().toString();
         String pwd = password.getText().toString();
+        User user;
 
         if (email.isEmpty()) {
             emailID.setError("Please enter email");
@@ -92,8 +100,32 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Invalid email or password", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        Intent intToHome = new Intent(MainActivity.this, home.class);
-                        startActivity(intToHome);
+                        String ID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        DatabaseReference ref = database.getReference("Users/"+ID);
+
+                        ref.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                User user = dataSnapshot.getValue(User.class);
+                                // student account
+                                if (user.getTeacher() == false) {
+                                    Intent intToStudentMainMenu = new Intent(MainActivity.this, student_main_menu.class);
+                                    startActivity(intToStudentMainMenu);
+                                }
+                                // Teacher account
+                                else {
+                                    Intent intToTeacherMainMenu = new Intent(MainActivity.this, teacher_main_menu.class);
+                                    startActivity(intToTeacherMainMenu);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
                     }
                 }
             });

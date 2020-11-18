@@ -14,9 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".home"
-            android:label="@string/title_activity_home"
+            android:name=".student_main_menu"
+            android:label="@string/title_activity_student_main_menu"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".teacher_main_menu"
+            android:label="@string/title_activity_teacher_main_menu"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".register"
             android:label="@string/title_activity_register"

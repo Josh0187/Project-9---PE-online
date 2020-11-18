@@ -48,7 +48,7 @@ public class Student implements Serializable {
 
         // if statistics is full
         if (NumOfExercises+1 > 50) {
-            // Remove statistics[0] and shift everything down
+            // Remove statistics[0](oldest stat) and shift everything down
             for (int i = 0; i < 49; i++) {
                 statistics[i] = statistics[i+1];
             }

@@ -12,22 +12,19 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
 
-public class home extends AppCompatActivity {
+public class teacher_main_menu extends AppCompatActivity {
 
-    FirebaseAuth mFirebaseAuth;
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-
+        setContentView(R.layout.activity_teacher_main_menu);
 
     }
 
     public void logOut(View view) {
         FirebaseAuth.getInstance().signOut();
-        Intent intToMain = new Intent(home.this, MainActivity.class);
+        Intent intToMain = new Intent(teacher_main_menu.this, MainActivity.class);
         startActivity(intToMain);
     }
 }

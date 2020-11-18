@@ -2,6 +2,7 @@ package com.example.peonline;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -16,14 +17,15 @@ public class Database {
     // parameter : Student object
 
     public void updateStatsDatabase(Student student) {
+        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         int n = student.getNumOfExercises();
         double[][] stats =  student.getStatistics();
 
         for (int i = 0; i < n; i++) {
-            FirebaseDatabase.getInstance().getReference().child("Students").child(student.getName()).child("statistics").child("non-stationary" + Integer.toString(i));
-            FirebaseDatabase.getInstance().getReference().child("Students").child(student.getName()).child("statistics").child("non-stationary" + Integer.toString(i)).child("time").setValue(stats[i][0]);
-            FirebaseDatabase.getInstance().getReference().child("Students").child(student.getName()).child("statistics").child("non-stationary" + Integer.toString(i)).child("distance").setValue(stats[i][1]);
-            FirebaseDatabase.getInstance().getReference().child("Students").child(student.getName()).child("statistics").child("non-stationary" + Integer.toString(i)).child("speed").setValue(stats[i][2]);
+            FirebaseDatabase.getInstance().getReference().child("Students").child(userID).child("statistics").child("non-stationary" + Integer.toString(i));
+            FirebaseDatabase.getInstance().getReference().child("Students").child(userID).child("statistics").child("non-stationary" + Integer.toString(i)).child("time").setValue(stats[i][0]);
+            FirebaseDatabase.getInstance().getReference().child("Students").child(userID).child("statistics").child("non-stationary" + Integer.toString(i)).child("distance").setValue(stats[i][1]);
+            FirebaseDatabase.getInstance().getReference().child("Students").child(userID).child("statistics").child("non-stationary" + Integer.toString(i)).child("speed").setValue(stats[i][2]);
         }
     }
 
