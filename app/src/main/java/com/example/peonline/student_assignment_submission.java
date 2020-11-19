@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.EditText;
+import android.widget.MediaController;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -28,12 +29,25 @@ public class student_assignment_submission extends AppCompatActivity {
 
     private static int VIDEO_REQUEST = 101;
     private Uri videoUri = null;
+    private StorageReference storageReference;
+    private DatabaseReference databaseReference;
+    MediaController mediaController;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_assignment_submission);
+
+        storageReference = FirebaseStorage.getInstance().getReference("videos");
+        databaseReference = FirebaseDatabase.getInstance().getReference("videos");
+
+    }
+
+    private String getFileExt(Uri videoUri) {
+        ContentResolver contentResolver = getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(videoUri));
     }
 
     // Goes in the onClick listener of Record Button when we implement stationary student submission
@@ -50,6 +64,32 @@ public class student_assignment_submission extends AppCompatActivity {
         Intent playIntent = new Intent(this, Play_Video_Activity.class);
         playIntent.putExtra("videoUri", videoUri.toString());
         startActivity(playIntent);
+    }
+
+    // OnClick for submission button
+    public void UploadVideo() {
+        if (videoUri != null) {
+            StorageReference reference = storageReference.child(System.currentTimeMillis()+"."+getFileExt(videoUri));
+
+            reference.putFile(videoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(getApplicationContext(), "Upload successful", Toast.LENGTH_SHORT);
+                    //replace "VideoSubmission" with string from edittext for name
+                    Member member = new Member("VideoSubmission", taskSnapshot.getUploadSessionUri().toString());
+                    String upload = databaseReference.push().getKey();
+                    databaseReference.child(upload).setValue(member);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        }
+            });
+        }
+        else {
+            Toast.makeText(getApplicationContext(), "No file", Toast.LENGTH_SHORT);
+        }
     }
 
     // Paired with captureVideo()

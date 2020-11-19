@@ -61,8 +61,34 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
                 if (mFirebaseUser != null) {
                     Toast.makeText(MainActivity.this, "You are logged in", Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(MainActivity.this, student_main_menu.class);
-                    startActivity(i);
+
+                    String ID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference databaseref = database.getReference("Users/"+ID);
+
+                    databaseref.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            User user = snapshot.getValue(User.class);
+                            // student account
+                            if (user.getTeacher() == false) {
+                                Intent intToStudentMainMenu = new Intent(MainActivity.this, student_main_menu.class);
+                                startActivity(intToStudentMainMenu);
+                            }
+                            // Teacher account
+                            else {
+                                Intent intToTeacherMainMenu = new Intent(MainActivity.this, teacher_main_menu.class);
+                                startActivity(intToTeacherMainMenu);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+
                 } else {
                     Toast.makeText(MainActivity.this, "Login", Toast.LENGTH_SHORT).show();
                 }

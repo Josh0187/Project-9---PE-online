@@ -97,8 +97,8 @@ public class register extends AppCompatActivity {
                     if (!task.isSuccessful()) {
                         Toast.makeText(register.this, "Sign up unsuccessful", Toast.LENGTH_SHORT).show();
                     }
+                    // account creation is successful
                     else {
-                        System.out.println(newuser.getName() + newuser.getTeacher());
                         FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(newuser);
                         Intent loginIntent = new Intent(register.this, MainActivity.class);
                         startActivity(loginIntent);
