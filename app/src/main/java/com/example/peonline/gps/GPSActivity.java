@@ -9,8 +9,10 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 import com.example.peonline.R;
+import com.example.peonline.studentmain.StudentMainMenu;
 
 public class GPSActivity extends AppCompatActivity {
 
@@ -36,18 +38,19 @@ public class GPSActivity extends AppCompatActivity {
         }
     }
 
-    public void backToMainMenu() {
-
-    }
+    //start and stop gps
     public void startGPS(View view) {
+        Button button = (Button) findViewById(R.id.GPSTracking);
         Intent intent = new Intent(this, GPSService.class);
         if (!started) {
-            startService(intent);
+            button.setText("Stop Tracking Distance");
             started = true;
+            startService(intent);
         }
         else {
-            stopService(intent);
+            button.setText("Start Tracking Distance");
             started = false;
+            stopService(intent);
         }
     }
 }
