@@ -1,5 +1,7 @@
 package com.example.peonline.gps;
 
+:package com.example.peonline.gps;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -10,7 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.peonline.R;
+import com.example.peonline.R;git a
 
 public class GPSActivity extends AppCompatActivity {
 
