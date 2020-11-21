@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -23,7 +24,8 @@ public class Register extends AppCompatActivity {
 
     FirebaseAuth mFirebaseAuth;
     EditText emailID, password, Name;
-    ToggleButton student_teach_toggle;
+    Button student_or_teacher;
+    Boolean isTeacher = false;
 
 
     @Override
@@ -36,8 +38,20 @@ public class Register extends AppCompatActivity {
         emailID = findViewById(R.id.et_email2);
         password = findViewById(R.id.et_password2);
         Name = findViewById(R.id.et_Name);
-        student_teach_toggle = (ToggleButton)findViewById(R.id.tog_student_teacher);
+        student_or_teacher = findViewById(R.id.student_or_teacher);
 
+
+    }
+
+    public void setIsTeacher(View view) {
+        if(!isTeacher) {
+            isTeacher = true;
+            student_or_teacher.setText("Teacher");
+        }
+        else {
+            isTeacher = false;
+            student_or_teacher.setText("Student");
+        }
     }
 
     // onClick for "Already have an account" Text View
@@ -53,21 +67,9 @@ public class Register extends AppCompatActivity {
         String email = emailID.getText().toString();
         String pwd = password.getText().toString();
         final String name = Name.getText().toString();
+        final User newuser = new User(name, isTeacher);
 
-        final User newuser = new User(name, true);
 
-        student_teach_toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    newuser.setTeacher(true);
-                }
-                else {
-                    newuser.setTeacher(false);
-                }
-                ;
-            }
-        });
 
         // Check for empty fields
         if (name.isEmpty()) {

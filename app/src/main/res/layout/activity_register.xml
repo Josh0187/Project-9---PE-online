@@ -5,7 +5,7 @@
     android:id="@+id/tv_email"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".login.MainActivity">
+    tools:context=".login.register">
 
 
     <EditText
@@ -87,19 +87,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.542" />
 
-    <ToggleButton
-        android:id="@+id/tog_student_teacher"
+    <Button
+        android:id="@+id/student_or_teacher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Student"
-        android:textOff="Student"
-        android:textOn="Teacher"
+        android:onClick = "setIsTeacher"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.309"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499" />
+        app:layout_constraintVertical_bias="0.493" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
