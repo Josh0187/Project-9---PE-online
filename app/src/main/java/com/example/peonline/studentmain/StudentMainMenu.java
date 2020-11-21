@@ -36,4 +36,12 @@ public class StudentMainMenu extends AppCompatActivity {
         Intent intent = new Intent(this, VideoSubmission.class);
         startActivity(intent);
     }
+
+    public void viewAssignments(View view) {
+
+    }
+
+    public void viewSelfStats(View view) {
+
+    }
 }
