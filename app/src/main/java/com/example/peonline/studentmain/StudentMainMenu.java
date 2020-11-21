@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.peonline.R;
+import com.example.peonline.gps.GPSActivity;
 import com.example.peonline.login.MainActivity;
+import com.example.peonline.video.VideoSubmission;
 import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,5 +26,15 @@ public class StudentMainMenu extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
         Intent intToMain = new Intent(StudentMainMenu.this, MainActivity.class);
         startActivity(intToMain);
+    }
+
+    public void locationActivity(View view) {
+        Intent intent = new Intent(this, GPSActivity.class);
+        startActivity(intent);
+    }
+
+    public void videoActivity(View view) {
+        Intent intent = new Intent(this, VideoSubmission.class);
+        startActivity(intent);
     }
 }

@@ -36,7 +36,10 @@ public class GPSActivity extends AppCompatActivity {
         }
     }
 
-    public void sendMessage(View view) {
+    public void backToMainMenu() {
+
+    }
+    public void startGPS(View view) {
         Intent intent = new Intent(this, GPSService.class);
         if (!started) {
             startService(intent);

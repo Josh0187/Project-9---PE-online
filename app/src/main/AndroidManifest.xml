@@ -25,6 +25,10 @@
             android:name=".login.Register"
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".gps.GPSActivity"
+            android:label="GPS Activity"/>
+        <service android:name=".gps.GPSService" />
 
         <meta-data android:name="com.google.android.gms.version" />
 
