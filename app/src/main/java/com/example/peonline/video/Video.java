@@ -1,12 +1,12 @@
-package com.example.peonline;
+package com.example.peonline.video;
 
-public class Member {
+public class Video {
     private String videoName;
     private String videoURI;
 
-    private Member() {}
+    private Video() {}
 
-    public Member(String name, String videoUri) {
+    public Video(String name, String videoUri) {
         if(name.trim().equals("")) {
             name = "not available";
         }

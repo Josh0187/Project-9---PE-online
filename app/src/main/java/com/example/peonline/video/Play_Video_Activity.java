@@ -1,8 +1,9 @@
-package com.example.peonline;
+package com.example.peonline.video;
 
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.example.peonline.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 

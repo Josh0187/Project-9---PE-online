@@ -1,7 +1,6 @@
-package com.example.peonline;
+package com.example.peonline.video;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentResolver;
@@ -9,13 +8,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.TextUtils;
-import android.view.View;
 import android.webkit.MimeTypeMap;
-import android.widget.EditText;
 import android.widget.MediaController;
 import android.widget.Toast;
 
+import com.example.peonline.R;
+import com.example.peonline.video.Play_Video_Activity;
+import com.example.peonline.video.Video;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -25,7 +24,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 // Use for student submission page for each stationary assignment
-public class student_assignment_submission extends AppCompatActivity {
+public class VideoSubmission extends AppCompatActivity {
 
     private static int VIDEO_REQUEST = 101;
     private Uri videoUri = null;
@@ -76,9 +75,9 @@ public class student_assignment_submission extends AppCompatActivity {
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText(getApplicationContext(), "Upload successful", Toast.LENGTH_SHORT);
                     //replace "VideoSubmission" with string from edittext for name
-                    Member member = new Member("VideoSubmission", taskSnapshot.getUploadSessionUri().toString());
+                    Video video = new Video("VideoSubmission", taskSnapshot.getUploadSessionUri().toString());
                     String upload = databaseReference.push().getKey();
-                    databaseReference.child(upload).setValue(member);
+                    databaseReference.child(upload).setValue(video);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                         @Override

@@ -1,4 +1,4 @@
-package com.example.peonline;
+package com.example.peonline.login;
 
 public class User {
     public static String name;

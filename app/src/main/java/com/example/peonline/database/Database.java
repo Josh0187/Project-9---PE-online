@@ -1,4 +1,4 @@
-package com.example.peonline;
+package com.example.peonline.database;
 
 import androidx.annotation.NonNull;
 

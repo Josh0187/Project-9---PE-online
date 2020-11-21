@@ -5,7 +5,7 @@
     android:id="@+id/VideoView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".student_assignment_submission">
+    tools:context=".video.VideoSubmission">
 
 
     <VideoView
