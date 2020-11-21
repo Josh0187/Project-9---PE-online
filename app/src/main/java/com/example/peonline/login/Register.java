@@ -19,7 +19,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-public class register extends AppCompatActivity {
+public class Register extends AppCompatActivity {
 
     FirebaseAuth mFirebaseAuth;
     EditText emailID, password, Name;
@@ -42,7 +42,7 @@ public class register extends AppCompatActivity {
 
     // onClick for "Already have an account" Text View
     public void loginScreen(View view) {
-        Intent loginIntent = new Intent(register.this, MainActivity.class);
+        Intent loginIntent = new Intent(Register.this, MainActivity.class);
         startActivity(loginIntent);
     }
 
@@ -84,20 +84,20 @@ public class register extends AppCompatActivity {
             password.requestFocus();
         }
         else if(email.isEmpty() && pwd.isEmpty()) {
-            Toast.makeText(register.this, "Fields are empty!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Register.this, "Fields are empty!", Toast.LENGTH_SHORT).show();
         }
         // User has filled out everything
         else if(!(email.isEmpty() && pwd.isEmpty())) {
-            mFirebaseAuth.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener(register.this, new OnCompleteListener<AuthResult>() {
+            mFirebaseAuth.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener(Register.this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (!task.isSuccessful()) {
-                        Toast.makeText(register.this, "Sign up unsuccessful", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Register.this, "Sign up unsuccessful", Toast.LENGTH_SHORT).show();
                     }
                     // account creation is successful
                     else {
                         FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(newuser);
-                        Intent loginIntent = new Intent(register.this, MainActivity.class);
+                        Intent loginIntent = new Intent(Register.this, MainActivity.class);
                         startActivity(loginIntent);
                     }
                 }
@@ -105,7 +105,7 @@ public class register extends AppCompatActivity {
         }
 
         else {
-            Toast.makeText(register.this, "Error Occurred", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Register.this, "Error Occurred", Toast.LENGTH_SHORT).show();
         }
     }
 }

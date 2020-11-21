@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.peonline.R;
-import com.example.peonline.studentmain.student_main_menu;
-import com.example.peonline.teachermain.teacher_main_menu;
+import com.example.peonline.studentmain.StudentMainMenu;
+import com.example.peonline.teachermain.TeacherMainMenu;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -57,12 +57,12 @@ public class MainActivity extends AppCompatActivity {
                             User user = snapshot.getValue(User.class);
                             // student account
                             if (user.getTeacher() == false) {
-                                Intent intToStudentMainMenu = new Intent(MainActivity.this, student_main_menu.class);
+                                Intent intToStudentMainMenu = new Intent(MainActivity.this, StudentMainMenu.class);
                                 startActivity(intToStudentMainMenu);
                             }
                             // Teacher account
                             else {
-                                Intent intToTeacherMainMenu = new Intent(MainActivity.this, teacher_main_menu.class);
+                                Intent intToTeacherMainMenu = new Intent(MainActivity.this, TeacherMainMenu.class);
                                 startActivity(intToTeacherMainMenu);
                             }
                         }
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void Register(View view) {
-        Intent registerIntent = new Intent(this, register.class);
+        Intent registerIntent = new Intent(this, Register.class);
         startActivity(registerIntent);
     }
 
@@ -121,12 +121,12 @@ public class MainActivity extends AppCompatActivity {
                                 User user = dataSnapshot.getValue(User.class);
                                 // student account
                                 if (user.getTeacher() == false) {
-                                    Intent intToStudentMainMenu = new Intent(MainActivity.this, student_main_menu.class);
+                                    Intent intToStudentMainMenu = new Intent(MainActivity.this, StudentMainMenu.class);
                                     startActivity(intToStudentMainMenu);
                                 }
                                 // Teacher account
                                 else {
-                                    Intent intToTeacherMainMenu = new Intent(MainActivity.this, teacher_main_menu.class);
+                                    Intent intToTeacherMainMenu = new Intent(MainActivity.this, TeacherMainMenu.class);
                                     startActivity(intToTeacherMainMenu);
                                 }
                             }

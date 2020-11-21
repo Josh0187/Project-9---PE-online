@@ -1,4 +1,4 @@
-package com.example.peonline.studentmain;
+package com.example.peonline.teachermain;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,18 +11,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
 
-public class student_main_menu extends AppCompatActivity {
+public class TeacherMainMenu extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_student_main_menu);
+        setContentView(R.layout.activity_teacher_main_menu);
 
     }
 
     public void logOut(View view) {
         FirebaseAuth.getInstance().signOut();
-        Intent intToMain = new Intent(student_main_menu.this, MainActivity.class);
+        Intent intToMain = new Intent(TeacherMainMenu.this, MainActivity.class);
         startActivity(intToMain);
     }
 }

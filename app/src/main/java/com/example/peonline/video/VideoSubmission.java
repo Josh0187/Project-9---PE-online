@@ -13,8 +13,6 @@ import android.widget.MediaController;
 import android.widget.Toast;
 
 import com.example.peonline.R;
-import com.example.peonline.video.Play_Video_Activity;
-import com.example.peonline.video.Video;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -60,7 +58,7 @@ public class VideoSubmission extends AppCompatActivity {
     // Goes in the onClick listener of replay Button when we implement stationary student submission
     // Can also use in Teacher Assignment view for stationary exercises
     public void playVideo() {
-        Intent playIntent = new Intent(this, Play_Video_Activity.class);
+        Intent playIntent = new Intent(this, PlayVideoActivity.class);
         playIntent.putExtra("videoUri", videoUri.toString());
         startActivity(playIntent);
     }
