@@ -6,20 +6,43 @@ import android.os.Bundle;
 import com.example.peonline.R;
 import com.example.peonline.gps.GPSActivity;
 import com.example.peonline.login.MainActivity;
+import com.example.peonline.teachermain.Assignment;
 import com.example.peonline.video.VideoSubmission;
 import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StudentMainMenu extends AppCompatActivity {
+
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_main_menu);
 
+        recyclerView = findViewById(R.id.assignment_cycleView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+
+        List<Assignment> listExample = new ArrayList<>();
+        listExample.add(new Assignment("title 1","body 1"));
+        listExample.add(new Assignment("title 2","body 2"));
+        listExample.add(new Assignment("title 3","body 3"));
+
+
+        RecycleVewAdaptor adaptor = new RecycleVewAdaptor(listExample);
+        recyclerView.setAdapter(adaptor);
+
+        adaptor.notifyDataSetChanged();
     }
 
     public void logOut(View view) {

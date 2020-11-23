@@ -30,6 +30,9 @@
         <activity
             android:name=".video.VideoSubmission"
             android:label="submit_video" />
+        <activity
+            android:name=".teachermain.AssignmentActivity"
+            android:label="Assignment"/>
 
         <meta-data android:name="com.google.android.gms.version" />
 
