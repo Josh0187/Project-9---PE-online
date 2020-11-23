@@ -8,11 +8,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.MediaController;
 import android.widget.Toast;
 
 import com.example.peonline.R;
+import com.example.peonline.login.MainActivity;
+import com.example.peonline.studentmain.StudentMainMenu;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -34,7 +37,7 @@ public class VideoSubmission extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_student_assignment_submission);
+        setContentView(R.layout.video_submission);
 
         storageReference = FirebaseStorage.getInstance().getReference("videos");
         databaseReference = FirebaseDatabase.getInstance().getReference("videos");
@@ -48,7 +51,7 @@ public class VideoSubmission extends AppCompatActivity {
     }
 
     // Goes in the onClick listener of Record Button when we implement stationary student submission
-    public void captureVideo() {
+    public void captureVideo(View view) {
         Intent videoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         // if(videoIntent.resolveActivity(getPackageManager()) != null) {
         startActivityForResult(videoIntent, VIDEO_REQUEST);
@@ -57,14 +60,14 @@ public class VideoSubmission extends AppCompatActivity {
 
     // Goes in the onClick listener of replay Button when we implement stationary student submission
     // Can also use in Teacher Assignment view for stationary exercises
-    public void playVideo() {
+    public void playVideo(View view) {
         Intent playIntent = new Intent(this, PlayVideoActivity.class);
         playIntent.putExtra("videoUri", videoUri.toString());
         startActivity(playIntent);
     }
 
     // OnClick for submission button
-    public void UploadVideo() {
+    public void UploadVideo(View view) {
         if (videoUri != null) {
             StorageReference reference = storageReference.child(System.currentTimeMillis()+"."+getFileExt(videoUri));
 
@@ -76,6 +79,9 @@ public class VideoSubmission extends AppCompatActivity {
                     Video video = new Video("VideoSubmission", taskSnapshot.getUploadSessionUri().toString());
                     String upload = databaseReference.push().getKey();
                     databaseReference.child(upload).setValue(video);
+                    //Go back to student main menu after submission
+                    Intent studentMainIntent = new Intent(VideoSubmission.this, StudentMainMenu.class);
+                    startActivity(studentMainIntent);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                         @Override
