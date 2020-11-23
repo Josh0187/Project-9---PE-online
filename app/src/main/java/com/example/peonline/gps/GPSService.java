@@ -20,8 +20,8 @@ public class GPSService extends Service {
     private static final int LOCATION_INTERVAL = 1;
     private static final int LOCATION_DISTANCE = 5;
     private final IBinder iBinder = new LocalBinder();
-    private float distance = 0;
-    private ArrayList<Location> points = new ArrayList<>();
+    private float distance;
+    private ArrayList<Location> points;
 
     public class LocalBinder extends Binder {
         GPSService getService() {
@@ -73,13 +73,14 @@ public class GPSService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e(TAG, "onStartCommand");
         super.onStartCommand(intent, flags, startId);
+        points = new ArrayList<>();
+        distance = 0;
         return START_STICKY;
     }
 
     @Override
     public void onCreate() {
         Log.d(TAG, "onCreate");
-        distance = 0;
         initializeLocationManager();
         try {
             locationManager.requestLocationUpdates(

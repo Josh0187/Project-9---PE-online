@@ -8,14 +8,18 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.peonline.R;
+
+import java.time.Instant;
 
 public class GPSActivity extends AppCompatActivity {
 
@@ -23,7 +27,9 @@ public class GPSActivity extends AppCompatActivity {
     private boolean started = false;
     private GPSService gpsService;
     private boolean bound = false;
-    private float distance = 0;
+    private float distance;
+    private long startTime, endTime;
+    private long elapsedTime;
 
     private ServiceConnection connection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
@@ -61,10 +67,12 @@ public class GPSActivity extends AppCompatActivity {
     }
 
     //start and stop gps
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void startGPS(View view) {
         Button button = findViewById(R.id.GPSTracking);
         Intent intent = new Intent(this, GPSService.class);
         if (!started) {
+            startTime = SystemClock.elapsedRealtime();
             button.setText("Stop Tracking Distance");
             startService(intent);
             if (!bound) {
@@ -75,9 +83,14 @@ public class GPSActivity extends AppCompatActivity {
             Log.d(TAG, "gps started ");
         }
         else {
+            endTime = SystemClock.elapsedRealtime();
+            elapsedTime = endTime - startTime;
+            double elapsedSeconds = elapsedTime/1000;
+            Log.d(TAG, "startGPS: " + elapsedTime + " " + elapsedSeconds);
             button.setText("Start Tracking Distance");
             distance = gpsService.getDistance();
             Log.d(TAG, "distance travelled: " + distance);
+            double speed = distance/elapsedTime;
             stopService(intent);
             started = false;
 
