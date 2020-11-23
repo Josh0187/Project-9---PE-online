@@ -55,7 +55,8 @@ public class TeacherMainMenu extends AppCompatActivity {
 
     public void logOut(View view) {
         FirebaseAuth.getInstance().signOut();
-        finish();
+        Intent toMainIntent = new Intent(TeacherMainMenu.this, MainActivity.class);
+        startActivity(toMainIntent);
     }
 
     public void viewClass(View view) {
