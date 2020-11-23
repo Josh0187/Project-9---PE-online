@@ -14,6 +14,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".teachermain.createCourse"
+            android:label="@string/title_activity_create_course"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".studentmain.Enroll"
+            android:label="@string/title_activity_enroll"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".studentmain.StudentMainMenu"
             android:label="@string/title_activity_student_main_menu"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -26,12 +34,17 @@
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".video.PlayVideoActivity"
+            android:label="play_video" />
+        <activity
             android:name=".gps.GPSActivity"
-            android:label="GPS Activity"/>
+            android:label="GPS Activity" />
+
         <service android:name=".gps.GPSService" />
+
         <activity
             android:name=".video.VideoSubmission"
-            android:label="submit_video" />
+            android:label="video_submission" />
 
         <meta-data android:name="com.google.android.gms.version" />
 

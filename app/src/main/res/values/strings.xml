@@ -13,4 +13,6 @@
     <string name="title_activity_home">home</string>
     <string name="title_activity_teacher_main_menu">teacher_main_menu</string>
     <string name="title_activity_student_main_menu">student_main_menu</string>
+    <string name="title_activity_enroll">Enroll</string>
+    <string name="title_activity_create_course">createCourse</string>
 </resources>
