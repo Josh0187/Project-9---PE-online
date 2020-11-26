@@ -90,7 +90,7 @@ public class GPSActivity extends AppCompatActivity {
             button.setText("Start Tracking Distance");
             distance = gpsService.getDistance();
             Log.d(TAG, "distance travelled: " + distance);
-            double speed = distance/elapsedTime;
+            double speed = distance/elapsedSeconds;
             stopService(intent);
             started = false;
 
