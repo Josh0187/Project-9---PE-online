@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //FirebaseAuth.getInstance().signOut();
         mFirebaseAuth = FirebaseAuth.getInstance();
         emailID = findViewById(R.id.et_email);
         password = findViewById(R.id.et_password);

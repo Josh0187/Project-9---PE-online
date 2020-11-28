@@ -21,6 +21,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class TeacherMainMenu extends AppCompatActivity {
 
     public static TextView courseKey;
@@ -33,15 +35,25 @@ public class TeacherMainMenu extends AppCompatActivity {
 
 
         String ID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference databaseref = database.getReference("Users/"+ID);
 
         databaseref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
-                courseKey.setText(user.getClassID());
-                databaseref.removeEventListener(this);
+                int numOfClasses = snapshot.child("numOfClasses").getValue(Integer.class);
+                ArrayList<String> classIDs = new ArrayList<String>();
+                for (DataSnapshot dataSnapshot : snapshot.child("classID").getChildren()) {
+                    classIDs.add(dataSnapshot.getValue().toString());
+                }
+
+                if (classIDs.isEmpty()) {
+                    databaseref.removeEventListener(this);
+                }
+                else {
+                    courseKey.setText(classIDs.get(classIDs.size() - 1));
+                    databaseref.removeEventListener(this);
+                }
             }
 
             @Override

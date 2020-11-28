@@ -22,6 +22,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class StudentMainMenu extends AppCompatActivity {
 
     TextView classEnrolled;
@@ -40,12 +42,19 @@ public class StudentMainMenu extends AppCompatActivity {
         databaseref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
-                String CourseKey = user.getClassID();
-                if (!CourseKey.isEmpty()) {
-                    displayClassName();
+                ArrayList<String> classIDs = new ArrayList<String>();
+                for (DataSnapshot dataSnapshot : snapshot.child("classID").getChildren()) {
+                    classIDs.add(dataSnapshot.getValue().toString());
                 }
-                databaseref.removeEventListener(this);
+
+                if (classIDs.isEmpty()) {
+                    databaseref.removeEventListener(this);
+                }
+                else {
+                    String CourseKey = classIDs.get(classIDs.size()-1);
+                    displayClassName(CourseKey);
+                    databaseref.removeEventListener(this);
+                }
             }
 
             @Override
@@ -56,19 +65,11 @@ public class StudentMainMenu extends AppCompatActivity {
 
     }
 
-    public void displayClassName() {
+    public void displayClassName(String CourseKey) {
         String ID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference databaseref = database.getReference("Users/" + ID);
 
-        databaseref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
-                String CourseKey = user.getClassID();
-
-
-                final DatabaseReference databaseRefcourse = FirebaseDatabase.getInstance().getReference("Courses/" + CourseKey);
+        final DatabaseReference databaseRefcourse = FirebaseDatabase.getInstance().getReference("Courses/" + CourseKey);
                 databaseRefcourse.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -84,14 +85,7 @@ public class StudentMainMenu extends AppCompatActivity {
 
                     }
                 });
-                databaseref.removeEventListener(this);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
     }
 
 

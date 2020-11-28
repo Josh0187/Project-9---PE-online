@@ -23,6 +23,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 public class createCourse extends AppCompatActivity {
 
     EditText className;
@@ -43,17 +45,26 @@ public class createCourse extends AppCompatActivity {
         newCourse.updateDatabase();
 
         String ID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference databaseref = database.getReference("Users/"+ID);
 
         databaseref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
-                user.setClassID(Key);
-                FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user);
-                Intent teacherMainIntent = new Intent(createCourse.this, TeacherMainMenu.class);
-                startActivity(teacherMainIntent);
+                int numOfClasses = snapshot.child("numOfClasses").getValue(Integer.class);
+                ArrayList<String> classIDs = new ArrayList<String>();
+                for (DataSnapshot dataSnapshot : snapshot.child("classID").getChildren()) {
+                    classIDs.add(dataSnapshot.getValue().toString());
+                }
+                classIDs.add(Key);
+
+                FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("numOfClasses").setValue(classIDs.size());
+
+                for (int i = 0; i < classIDs.size(); i++) {
+                    FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("classID").child(Integer.toString(i)).setValue(classIDs.get(i));
+                }
+                databaseref.removeEventListener(this);
+
             }
 
             @Override
@@ -61,5 +72,7 @@ public class createCourse extends AppCompatActivity {
 
             }
         });
+        Intent teacherMainIntent = new Intent(createCourse.this, TeacherMainMenu.class);
+        startActivity(teacherMainIntent);
     }
 }
