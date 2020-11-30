@@ -1,0 +1,964 @@
+Index: app/src/main/java/com/example/peonline/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.peonline;\n\nimport android.content.Context;\nimport android.content.Intent;\nimport android.location.LocationListener;\nimport android.location.LocationManager;\nimport android.os.Build;\nimport android.os.Bundle;\n\nimport com.example.peonline.gps.LocationTracker;\nimport com.google.android.gms.maps.GoogleMap;\nimport com.google.android.gms.maps.SupportMapFragment;\nimport com.google.android.gms.tasks.OnCompleteListener;\nimport com.google.android.gms.tasks.Task;\nimport com.google.android.material.floatingactionbutton.FloatingActionButton;\nimport com.google.android.material.snackbar.Snackbar;\nimport com.google.firebase.auth.AuthResult;\nimport com.google.firebase.auth.FirebaseAuth;\nimport com.google.firebase.auth.FirebaseUser;\n\nimport androidx.annotation.NonNull;\nimport androidx.annotation.RequiresApi;\nimport androidx.appcompat.app.AppCompatActivity;\nimport androidx.appcompat.widget.Toolbar;\n\nimport android.view.View;\n\nimport android.view.Menu;\nimport android.view.MenuItem;\nimport android.widget.Button;\nimport android.widget.CompoundButton;\nimport android.widget.EditText;\nimport android.widget.Toast;\nimport android.widget.ToggleButton;\n\npublic class MainActivity extends AppCompatActivity {\n\n    FirebaseAuth mFirebaseAuth;\n    private FirebaseAuth.AuthStateListener mAuthStateListener;\n    EditText emailID, password;\n\n    @Override\n    public void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n        setContentView(R.layout.activity_main);\n\n        mFirebaseAuth = FirebaseAuth.getInstance();\n        emailID = findViewById(R.id.et_email);\n        password = findViewById(R.id.et_password);\n\n        mAuthStateListener = new FirebaseAuth.AuthStateListener() {\n            @Override\n            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {\n                FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();\n                if (mFirebaseUser != null) {\n                    Toast.makeText(MainActivity.this, \"You are logged in\", Toast.LENGTH_SHORT).show();\n                    Intent i = new Intent(MainActivity.this, home.class);\n                    startActivity(i);\n                } else {\n                    Toast.makeText(MainActivity.this, \"Login\", Toast.LENGTH_SHORT).show();\n                }\n            }\n        };\n    }\n\n    public void Register(View view) {\n        Intent registerIntent = new Intent(this, register.class);\n        startActivity(registerIntent);\n    }\n\n    public void login(View view) {\n        String email = emailID.getText().toString();\n        String pwd = password.getText().toString();\n\n        if (email.isEmpty()) {\n            emailID.setError(\"Please enter email\");\n            emailID.requestFocus();\n        }\n        else if(pwd.isEmpty()) {\n            password.setError(\"Please enter a password\");\n            password.requestFocus();\n        }\n        else if(email.isEmpty() && pwd.isEmpty()) {\n            Toast.makeText(MainActivity.this, \"Fields are empty!\", Toast.LENGTH_SHORT).show();\n        }\n        // User has filled out everything\n        else if(!(email.isEmpty() && pwd.isEmpty())) {\n            mFirebaseAuth.signInWithEmailAndPassword(email, pwd).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {\n                @Override\n                public void onComplete(@NonNull Task<AuthResult> task) {\n                    if (!task.isSuccessful()) {\n                        Toast.makeText(MainActivity.this, \"Invalid email or password\", Toast.LENGTH_SHORT).show();\n                    }\n                    else {\n                        Intent intToHome = new Intent(MainActivity.this, home.class);\n                        startActivity(intToHome);\n                    }\n                }\n            });\n\n        }\n\n        else {\n            Toast.makeText(MainActivity.this, \"Error Occurred\", Toast.LENGTH_SHORT).show();\n        }\n    }\n\n    protected void onStart() {\n        super.onStart();\n        mFirebaseAuth.addAuthStateListener(mAuthStateListener);\n    }\n}\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/peonline/MainActivity.java	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
++++ app/src/main/java/com/example/peonline/MainActivity.java	(date 1605660781000)
+@@ -1,37 +1,21 @@
+ package com.example.peonline;
+ 
+-import android.content.Context;
+ import android.content.Intent;
+-import android.location.LocationListener;
+-import android.location.LocationManager;
+-import android.os.Build;
+ import android.os.Bundle;
+ 
+-import com.example.peonline.gps.LocationTracker;
+-import com.google.android.gms.maps.GoogleMap;
+-import com.google.android.gms.maps.SupportMapFragment;
+ import com.google.android.gms.tasks.OnCompleteListener;
+ import com.google.android.gms.tasks.Task;
+-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+-import com.google.android.material.snackbar.Snackbar;
+ import com.google.firebase.auth.AuthResult;
+ import com.google.firebase.auth.FirebaseAuth;
+ import com.google.firebase.auth.FirebaseUser;
+ 
+ import androidx.annotation.NonNull;
+-import androidx.annotation.RequiresApi;
+ import androidx.appcompat.app.AppCompatActivity;
+-import androidx.appcompat.widget.Toolbar;
+ 
+ import android.view.View;
+ 
+-import android.view.Menu;
+-import android.view.MenuItem;
+-import android.widget.Button;
+-import android.widget.CompoundButton;
+ import android.widget.EditText;
+ import android.widget.Toast;
+-import android.widget.ToggleButton;
+ 
+ public class MainActivity extends AppCompatActivity {
+ 
+@@ -54,7 +38,7 @@
+                 FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
+                 if (mFirebaseUser != null) {
+                     Toast.makeText(MainActivity.this, "You are logged in", Toast.LENGTH_SHORT).show();
+-                    Intent i = new Intent(MainActivity.this, home.class);
++                    Intent i = new Intent(MainActivity.this, HomeActivity.class);
+                     startActivity(i);
+                 } else {
+                     Toast.makeText(MainActivity.this, "Login", Toast.LENGTH_SHORT).show();
+@@ -64,7 +48,7 @@
+     }
+ 
+     public void Register(View view) {
+-        Intent registerIntent = new Intent(this, register.class);
++        Intent registerIntent = new Intent(this, RegisterActivity.class);
+         startActivity(registerIntent);
+     }
+ 
+@@ -92,7 +76,7 @@
+                         Toast.makeText(MainActivity.this, "Invalid email or password", Toast.LENGTH_SHORT).show();
+                     }
+                     else {
+-                        Intent intToHome = new Intent(MainActivity.this, home.class);
++                        Intent intToHome = new Intent(MainActivity.this, HomeActivity.class);
+                         startActivity(intToHome);
+                     }
+                 }
+Index: app/src/main/java/com/example/peonline/Student.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.peonline;\nimport java.io.Serializable;\n\n@SuppressWarnings(\"serial\")\npublic class Student implements Serializable {\n    String name;\n    double [][] statistics;\n    int NumOfExercises;\n\n    public Student(String name) {\n        this.name = name;\n        // Array of 50 non-stationary exercises each containing 3 stats (Time, Distance, Speed) in that order\n        this.statistics = new double[50][3];\n\n        // Update Current Number of Exercises\n        this.NumOfExercises = 0;\n    }\n\n    // Getters and Setters\n    public String getName() {\n        return name;\n    }\n\n    public void setName(String name) {\n        this.name = name;\n    }\n\n    public double[][] getStatistics() {\n        return statistics;\n    }\n\n    public void setStatistics(double[][] statistics) {\n        this.statistics = statistics;\n    }\n\n    public int getNumOfExercises() {\n        return NumOfExercises;\n    }\n\n    public void setNumOfExercises(int numOfExercises) {\n        NumOfExercises = numOfExercises;\n    }\n\n\n    // Purpose : add a set of stats for a non stationary exercise, use when student has submitted non-stationary assignment\n    // Parameter : double[] TimeDistanceSpeed = {double time, double distance, double speed}\n    public void Add_Non_Stationary_Exercise(double[] TimeDistanceSpeed) {\n\n        // if statistics is full\n        if (NumOfExercises+1 > 50) {\n            // Remove statistics[0] and shift everything down\n            for (int i = 0; i < 49; i++) {\n                statistics[i] = statistics[i+1];\n            }\n        }\n\n        statistics[NumOfExercises] = TimeDistanceSpeed;\n\n        //Increment NumOfExercises\n        NumOfExercises++;\n    }\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/peonline/Student.java	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
++++ app/src/main/java/com/example/peonline/database/Student.java	(date 1605661193000)
+@@ -1,4 +1,4 @@
+-package com.example.peonline;
++package com.example.peonline.database;
+ import java.io.Serializable;
+ 
+ @SuppressWarnings("serial")
+Index: app/src/main/java/com/example/peonline/Database.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.peonline;\n\nimport androidx.annotation.NonNull;\n\nimport com.google.firebase.database.DataSnapshot;\nimport com.google.firebase.database.DatabaseError;\nimport com.google.firebase.database.DatabaseReference;\nimport com.google.firebase.database.FirebaseDatabase;\nimport com.google.firebase.database.ValueEventListener;\n\npublic class Database {\n\n    public Database() { }\n\n    // Updates stats of student in database\n    // parameter : Student object\n\n    public void updateStatsDatabase(Student student) {\n        int n = student.getNumOfExercises();\n        double[][] stats =  student.getStatistics();\n\n        for (int i = 0; i < n; i++) {\n            FirebaseDatabase.getInstance().getReference().child(\"Students\").child(student.getName()).child(\"statistics\").child(\"non-stationary\" + Integer.toString(i));\n            FirebaseDatabase.getInstance().getReference().child(\"Students\").child(student.getName()).child(\"statistics\").child(\"non-stationary\" + Integer.toString(i)).child(\"time\").setValue(stats[i][0]);\n            FirebaseDatabase.getInstance().getReference().child(\"Students\").child(student.getName()).child(\"statistics\").child(\"non-stationary\" + Integer.toString(i)).child(\"distance\").setValue(stats[i][1]);\n            FirebaseDatabase.getInstance().getReference().child(\"Students\").child(student.getName()).child(\"statistics\").child(\"non-stationary\" + Integer.toString(i)).child(\"speed\").setValue(stats[i][2]);\n        }\n    }\n\n\n\n    //\n    // WORK IN PROGRESS : RETRIEVING DATA FROM DATABASE (DOES NOT WORK YET)\n    //\n    public Student retreiveStudent(String studentName) {\n        Student student = new Student(studentName);\n        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child(\"Students\").child(studentName).child(\"statistics\");\n        final double[][] statistics = new double[50][3];\n        reference.addValueEventListener(new ValueEventListener() {\n            @Override\n            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {\n                int i = 0;\n                int c = 0;\n                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {\n                    double[] stats = {};\n                    c = 0;\n                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {\n                        stats[c++] = (double)snapshot1.getValue();\n                    }\n                    statistics[i++] = stats;\n                }\n            }\n\n            @Override\n            public void onCancelled(@NonNull DatabaseError error) {\n\n            }\n        });\n\n        student.setStatistics(statistics);\n\n        return student;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/peonline/Database.java	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
++++ app/src/main/java/com/example/peonline/database/Database.java	(date 1605661193000)
+@@ -1,4 +1,4 @@
+-package com.example.peonline;
++package com.example.peonline.database;
+ 
+ import androidx.annotation.NonNull;
+ 
+Index: app/src/main/java/com/example/peonline/register.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.peonline;\n\nimport android.content.Intent;\nimport android.os.Bundle;\n\nimport com.google.android.gms.tasks.OnCompleteListener;\nimport com.google.android.gms.tasks.Task;\nimport com.google.android.material.floatingactionbutton.FloatingActionButton;\nimport com.google.android.material.snackbar.Snackbar;\nimport com.google.firebase.auth.AuthResult;\nimport com.google.firebase.auth.FirebaseAuth;\n\nimport androidx.annotation.NonNull;\nimport androidx.appcompat.app.AppCompatActivity;\nimport androidx.appcompat.widget.Toolbar;\n\nimport android.view.View;\nimport android.widget.EditText;\nimport android.widget.Toast;\n\npublic class register extends AppCompatActivity {\n\n    FirebaseAuth mFirebaseAuth;\n    EditText emailID, password;\n\n    @Override\n    protected void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n        setContentView(R.layout.activity_register);\n\n\n        mFirebaseAuth = FirebaseAuth.getInstance();\n        emailID = findViewById(R.id.et_email2);\n        password = findViewById(R.id.et_password2);\n\n    }\n\n    // onClick for \"Already have an account\" Text View\n    public void loginScreen(View view) {\n        Intent loginIntent = new Intent(register.this, MainActivity.class);\n        startActivity(loginIntent);\n    }\n\n    // OnClick for signUp Button\n    public void signUp(View view) {\n        String email = emailID.getText().toString();\n        String pwd = password.getText().toString();\n\n        if (email.isEmpty()) {\n            emailID.setError(\"Please enter email\");\n            emailID.requestFocus();\n        }\n        else if(pwd.isEmpty()) {\n            password.setError(\"Please enter a password\");\n            password.requestFocus();\n        }\n        else if(email.isEmpty() && pwd.isEmpty()) {\n            Toast.makeText(register.this, \"Fields are empty!\", Toast.LENGTH_SHORT).show();\n        }\n        // User has filled out everything\n        else if(!(email.isEmpty() && pwd.isEmpty())) {\n            mFirebaseAuth.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener(register.this, new OnCompleteListener<AuthResult>() {\n                @Override\n                public void onComplete(@NonNull Task<AuthResult> task) {\n                    if (!task.isSuccessful()) {\n                        Toast.makeText(register.this, \"Sign up unsuccessful\", Toast.LENGTH_SHORT).show();\n                    }\n                    else {\n                        Intent loginIntent = new Intent(register.this, MainActivity.class);\n                        startActivity(loginIntent);\n                    }\n                }\n            });\n        }\n\n        else {\n            Toast.makeText(register.this, \"Error Occurred\", Toast.LENGTH_SHORT).show();\n        }\n    }\n}\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/peonline/register.java	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
++++ app/src/main/java/com/example/peonline/RegisterActivity.java	(date 1605660781000)
+@@ -5,20 +5,17 @@
+ 
+ import com.google.android.gms.tasks.OnCompleteListener;
+ import com.google.android.gms.tasks.Task;
+-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+-import com.google.android.material.snackbar.Snackbar;
+ import com.google.firebase.auth.AuthResult;
+ import com.google.firebase.auth.FirebaseAuth;
+ 
+ import androidx.annotation.NonNull;
+ import androidx.appcompat.app.AppCompatActivity;
+-import androidx.appcompat.widget.Toolbar;
+ 
+ import android.view.View;
+ import android.widget.EditText;
+ import android.widget.Toast;
+ 
+-public class register extends AppCompatActivity {
++public class RegisterActivity extends AppCompatActivity {
+ 
+     FirebaseAuth mFirebaseAuth;
+     EditText emailID, password;
+@@ -37,7 +34,7 @@
+ 
+     // onClick for "Already have an account" Text View
+     public void loginScreen(View view) {
+-        Intent loginIntent = new Intent(register.this, MainActivity.class);
++        Intent loginIntent = new Intent(RegisterActivity.this, MainActivity.class);
+         startActivity(loginIntent);
+     }
+ 
+@@ -55,18 +52,18 @@
+             password.requestFocus();
+         }
+         else if(email.isEmpty() && pwd.isEmpty()) {
+-            Toast.makeText(register.this, "Fields are empty!", Toast.LENGTH_SHORT).show();
++            Toast.makeText(RegisterActivity.this, "Fields are empty!", Toast.LENGTH_SHORT).show();
+         }
+         // User has filled out everything
+         else if(!(email.isEmpty() && pwd.isEmpty())) {
+-            mFirebaseAuth.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener(register.this, new OnCompleteListener<AuthResult>() {
++            mFirebaseAuth.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                 @Override
+                 public void onComplete(@NonNull Task<AuthResult> task) {
+                     if (!task.isSuccessful()) {
+-                        Toast.makeText(register.this, "Sign up unsuccessful", Toast.LENGTH_SHORT).show();
++                        Toast.makeText(RegisterActivity.this, "Sign up unsuccessful", Toast.LENGTH_SHORT).show();
+                     }
+                     else {
+-                        Intent loginIntent = new Intent(register.this, MainActivity.class);
++                        Intent loginIntent = new Intent(RegisterActivity.this, MainActivity.class);
+                         startActivity(loginIntent);
+                     }
+                 }
+@@ -74,7 +71,7 @@
+         }
+ 
+         else {
+-            Toast.makeText(register.this, "Error Occurred", Toast.LENGTH_SHORT).show();
++            Toast.makeText(RegisterActivity.this, "Error Occurred", Toast.LENGTH_SHORT).show();
+         }
+     }
+ }
+Index: app/src/main/java/com/example/peonline/First3Fragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/peonline/First3Fragment.java	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
++++ app/src/main/java/com/example/peonline/First3Fragment.java	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
+@@ -1,34 +0,0 @@
+-package com.example.peonline;
+-
+-import android.os.Bundle;
+-import android.view.LayoutInflater;
+-import android.view.View;
+-import android.view.ViewGroup;
+-
+-import androidx.annotation.NonNull;
+-import androidx.fragment.app.Fragment;
+-import androidx.navigation.fragment.NavHostFragment;
+-
+-public class First3Fragment extends Fragment {
+-
+-    @Override
+-    public View onCreateView(
+-            LayoutInflater inflater, ViewGroup container,
+-            Bundle savedInstanceState
+-    ) {
+-        // Inflate the layout for this fragment
+-        return inflater.inflate(R.layout.fragment_first3, container, false);
+-    }
+-
+-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+-        super.onViewCreated(view, savedInstanceState);
+-
+-        view.findViewById(R.id.button_first).setOnClickListener(new View.OnClickListener() {
+-            @Override
+-            public void onClick(View view) {
+-                NavHostFragment.findNavController(First3Fragment.this)
+-                        .navigate(R.id.action_First3Fragment_to_Second3Fragment);
+-            }
+-        });
+-    }
+-}
+\ No newline at end of file
+Index: app/src/main/java/com/example/peonline/First2Fragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/peonline/First2Fragment.java	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
++++ app/src/main/java/com/example/peonline/First2Fragment.java	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
+@@ -1,34 +0,0 @@
+-package com.example.peonline;
+-
+-import android.os.Bundle;
+-import android.view.LayoutInflater;
+-import android.view.View;
+-import android.view.ViewGroup;
+-
+-import androidx.annotation.NonNull;
+-import androidx.fragment.app.Fragment;
+-import androidx.navigation.fragment.NavHostFragment;
+-
+-public class First2Fragment extends Fragment {
+-
+-    @Override
+-    public View onCreateView(
+-            LayoutInflater inflater, ViewGroup container,
+-            Bundle savedInstanceState
+-    ) {
+-        // Inflate the layout for this fragment
+-        return inflater.inflate(R.layout.fragment_first2, container, false);
+-    }
+-
+-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+-        super.onViewCreated(view, savedInstanceState);
+-
+-        view.findViewById(R.id.button_first).setOnClickListener(new View.OnClickListener() {
+-            @Override
+-            public void onClick(View view) {
+-                NavHostFragment.findNavController(First2Fragment.this)
+-                        .navigate(R.id.action_First2Fragment_to_Second2Fragment);
+-            }
+-        });
+-    }
+-}
+\ No newline at end of file
+Index: app/src/main/java/com/example/peonline/FirstFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/peonline/FirstFragment.java	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
++++ app/src/main/java/com/example/peonline/FirstFragment.java	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
+@@ -1,34 +0,0 @@
+-package com.example.peonline;
+-
+-import android.os.Bundle;
+-import android.view.LayoutInflater;
+-import android.view.View;
+-import android.view.ViewGroup;
+-
+-import androidx.annotation.NonNull;
+-import androidx.fragment.app.Fragment;
+-import androidx.navigation.fragment.NavHostFragment;
+-
+-public class FirstFragment extends Fragment {
+-
+-    @Override
+-    public View onCreateView(
+-            LayoutInflater inflater, ViewGroup container,
+-            Bundle savedInstanceState
+-    ) {
+-        // Inflate the layout for this fragment
+-        return inflater.inflate(R.layout.fragment_first, container, false);
+-    }
+-
+-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+-        super.onViewCreated(view, savedInstanceState);
+-
+-        view.findViewById(R.id.button_first).setOnClickListener(new View.OnClickListener() {
+-            @Override
+-            public void onClick(View view) {
+-                NavHostFragment.findNavController(FirstFragment.this)
+-                        .navigate(R.id.action_FirstFragment_to_SecondFragment);
+-            }
+-        });
+-    }
+-}
+\ No newline at end of file
+Index: app/src/main/java/com/example/peonline/SecondFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/peonline/SecondFragment.java	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
++++ app/src/main/java/com/example/peonline/SecondFragment.java	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
+@@ -1,34 +0,0 @@
+-package com.example.peonline;
+-
+-import android.os.Bundle;
+-import android.view.LayoutInflater;
+-import android.view.View;
+-import android.view.ViewGroup;
+-
+-import androidx.annotation.NonNull;
+-import androidx.fragment.app.Fragment;
+-import androidx.navigation.fragment.NavHostFragment;
+-
+-public class SecondFragment extends Fragment {
+-
+-    @Override
+-    public View onCreateView(
+-            LayoutInflater inflater, ViewGroup container,
+-            Bundle savedInstanceState
+-    ) {
+-        // Inflate the layout for this fragment
+-        return inflater.inflate(R.layout.fragment_second, container, false);
+-    }
+-
+-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+-        super.onViewCreated(view, savedInstanceState);
+-
+-        view.findViewById(R.id.button_second).setOnClickListener(new View.OnClickListener() {
+-            @Override
+-            public void onClick(View view) {
+-                NavHostFragment.findNavController(SecondFragment.this)
+-                        .navigate(R.id.action_SecondFragment_to_FirstFragment);
+-            }
+-        });
+-    }
+-}
+\ No newline at end of file
+Index: app/src/main/res/layout/content_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/content_main.xml	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
++++ app/src/main/res/layout/content_main.xml	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
+@@ -1,6 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:app="http://schemas.android.com/apk/res-auto"
+-    android:layout_width="match_parent"
+-    android:layout_height="match_parent"
+-    app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+\ No newline at end of file
+Index: app/src/main/res/layout/fragment_second3.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_second3.xml	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
++++ app/src/main/res/layout/fragment_second3.xml	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
+@@ -1,27 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:app="http://schemas.android.com/apk/res-auto"
+-    xmlns:tools="http://schemas.android.com/tools"
+-    android:layout_width="match_parent"
+-    android:layout_height="match_parent"
+-    tools:context=".Second3Fragment">
+-
+-    <TextView
+-        android:id="@+id/textview_second"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        app:layout_constraintBottom_toTopOf="@id/button_second"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toTopOf="parent" />
+-
+-    <Button
+-        android:id="@+id/button_second"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:text="@string/previous"
+-        app:layout_constraintBottom_toBottomOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toBottomOf="@id/textview_second" />
+-</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/fragment_first.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_first.xml	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
++++ app/src/main/res/layout/fragment_first.xml	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
+@@ -1,28 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:app="http://schemas.android.com/apk/res-auto"
+-    xmlns:tools="http://schemas.android.com/tools"
+-    android:layout_width="match_parent"
+-    android:layout_height="match_parent"
+-    tools:context=".FirstFragment">
+-
+-    <TextView
+-        android:id="@+id/textview_first"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:text="@string/hello_first_fragment"
+-        app:layout_constraintBottom_toTopOf="@id/button_first"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toTopOf="parent" />
+-
+-    <Button
+-        android:id="@+id/button_first"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:text="@string/next"
+-        app:layout_constraintBottom_toBottomOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toBottomOf="@id/textview_first" />
+-</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/example/peonline/DataCalculation.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/peonline/DataCalculation.java	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
++++ app/src/main/java/com/example/peonline/DataCalculation.java	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
+@@ -1,5 +0,0 @@
+-package com.example.peonline;
+-
+-public class DataCalculation {
+-
+-}
+Index: app/src/main/res/layout/activity_maps.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_maps.xml	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
++++ app/src/main/res/layout/activity_maps.xml	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
+@@ -1,27 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:tools="http://schemas.android.com/tools"
+-    android:id="@+id/map"
+-    android:name="com.google.android.gms.maps.SupportMapFragment"
+-    android:layout_width="match_parent"
+-    android:layout_height="match_parent"
+-    tools:context=".gps.LocationTracker" >
+-
+-    <Button
+-        android:id="@+id/Stop_gps_button"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:layout_alignParentStart="true"
+-        android:layout_alignParentLeft="true"
+-        android:layout_alignParentTop="true"
+-        android:layout_alignParentEnd="true"
+-        android:layout_alignParentRight="true"
+-        android:layout_alignParentBottom="true"
+-        android:layout_marginStart="159dp"
+-        android:layout_marginLeft="159dp"
+-        android:layout_marginTop="592dp"
+-        android:layout_marginEnd="164dp"
+-        android:layout_marginRight="164dp"
+-        android:layout_marginBottom="91dp"
+-        android:text="@string/stop" />
+-</RelativeLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/fragment_second2.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_second2.xml	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
++++ app/src/main/res/layout/fragment_second2.xml	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
+@@ -1,27 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:app="http://schemas.android.com/apk/res-auto"
+-    xmlns:tools="http://schemas.android.com/tools"
+-    android:layout_width="match_parent"
+-    android:layout_height="match_parent"
+-    tools:context=".Second2Fragment">
+-
+-    <TextView
+-        android:id="@+id/textview_second"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        app:layout_constraintBottom_toTopOf="@id/button_second"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toTopOf="parent" />
+-
+-    <Button
+-        android:id="@+id/button_second"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:text="@string/previous"
+-        app:layout_constraintBottom_toBottomOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toBottomOf="@id/textview_second" />
+-</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/content_home.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/content_home.xml	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
++++ app/src/main/res/layout/content_home.xml	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
+@@ -1,6 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:app="http://schemas.android.com/apk/res-auto"
+-    android:layout_width="match_parent"
+-    android:layout_height="match_parent"
+-    app:layout_behavior="@string/appbar_scrolling_view_behavior"></androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/fragment_first2.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_first2.xml	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
++++ app/src/main/res/layout/fragment_first2.xml	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
+@@ -1,28 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:app="http://schemas.android.com/apk/res-auto"
+-    xmlns:tools="http://schemas.android.com/tools"
+-    android:layout_width="match_parent"
+-    android:layout_height="match_parent"
+-    tools:context=".First2Fragment">
+-
+-    <TextView
+-        android:id="@+id/textview_first"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:text="@string/hello_first_fragment"
+-        app:layout_constraintBottom_toTopOf="@id/button_first"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toTopOf="parent" />
+-
+-    <Button
+-        android:id="@+id/button_first"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:text="@string/next"
+-        app:layout_constraintBottom_toBottomOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toBottomOf="@id/textview_first" />
+-</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/fragment_second.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_second.xml	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
++++ app/src/main/res/layout/fragment_second.xml	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
+@@ -1,27 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:app="http://schemas.android.com/apk/res-auto"
+-    xmlns:tools="http://schemas.android.com/tools"
+-    android:layout_width="match_parent"
+-    android:layout_height="match_parent"
+-    tools:context=".SecondFragment">
+-
+-    <TextView
+-        android:id="@+id/textview_second"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        app:layout_constraintBottom_toTopOf="@id/button_second"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toTopOf="parent" />
+-
+-    <Button
+-        android:id="@+id/button_second"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:text="@string/previous"
+-        app:layout_constraintBottom_toBottomOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toBottomOf="@id/textview_second" />
+-</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/fragment_first3.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_first3.xml	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
++++ app/src/main/res/layout/fragment_first3.xml	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
+@@ -1,28 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:app="http://schemas.android.com/apk/res-auto"
+-    xmlns:tools="http://schemas.android.com/tools"
+-    android:layout_width="match_parent"
+-    android:layout_height="match_parent"
+-    tools:context=".First3Fragment">
+-
+-    <TextView
+-        android:id="@+id/textview_first"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:text="@string/hello_first_fragment"
+-        app:layout_constraintBottom_toTopOf="@id/button_first"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toTopOf="parent" />
+-
+-    <Button
+-        android:id="@+id/button_first"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:text="@string/next"
+-        app:layout_constraintBottom_toBottomOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toBottomOf="@id/textview_first" />
+-</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/example/peonline/Second2Fragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/peonline/Second2Fragment.java	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
++++ app/src/main/java/com/example/peonline/Second2Fragment.java	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
+@@ -1,34 +0,0 @@
+-package com.example.peonline;
+-
+-import android.os.Bundle;
+-import android.view.LayoutInflater;
+-import android.view.View;
+-import android.view.ViewGroup;
+-
+-import androidx.annotation.NonNull;
+-import androidx.fragment.app.Fragment;
+-import androidx.navigation.fragment.NavHostFragment;
+-
+-public class Second2Fragment extends Fragment {
+-
+-    @Override
+-    public View onCreateView(
+-            LayoutInflater inflater, ViewGroup container,
+-            Bundle savedInstanceState
+-    ) {
+-        // Inflate the layout for this fragment
+-        return inflater.inflate(R.layout.fragment_second2, container, false);
+-    }
+-
+-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+-        super.onViewCreated(view, savedInstanceState);
+-
+-        view.findViewById(R.id.button_second).setOnClickListener(new View.OnClickListener() {
+-            @Override
+-            public void onClick(View view) {
+-                NavHostFragment.findNavController(Second2Fragment.this)
+-                        .navigate(R.id.action_Second2Fragment_to_First2Fragment);
+-            }
+-        });
+-    }
+-}
+\ No newline at end of file
+Index: app/src/main/java/com/example/peonline/Second3Fragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/peonline/Second3Fragment.java	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
++++ app/src/main/java/com/example/peonline/Second3Fragment.java	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
+@@ -1,34 +0,0 @@
+-package com.example.peonline;
+-
+-import android.os.Bundle;
+-import android.view.LayoutInflater;
+-import android.view.View;
+-import android.view.ViewGroup;
+-
+-import androidx.annotation.NonNull;
+-import androidx.fragment.app.Fragment;
+-import androidx.navigation.fragment.NavHostFragment;
+-
+-public class Second3Fragment extends Fragment {
+-
+-    @Override
+-    public View onCreateView(
+-            LayoutInflater inflater, ViewGroup container,
+-            Bundle savedInstanceState
+-    ) {
+-        // Inflate the layout for this fragment
+-        return inflater.inflate(R.layout.fragment_second3, container, false);
+-    }
+-
+-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+-        super.onViewCreated(view, savedInstanceState);
+-
+-        view.findViewById(R.id.button_second).setOnClickListener(new View.OnClickListener() {
+-            @Override
+-            public void onClick(View view) {
+-                NavHostFragment.findNavController(Second3Fragment.this)
+-                        .navigate(R.id.action_Second3Fragment_to_First3Fragment);
+-            }
+-        });
+-    }
+-}
+\ No newline at end of file
+Index: app/src/main/java/com/example/peonline/statistics/Statistics.java
+===================================================================
+--- app/src/main/java/com/example/peonline/statistics/Statistics.java	(date 1605657656000)
++++ app/src/main/java/com/example/peonline/statistics/Statistics.java	(date 1605657656000)
+@@ -0,0 +1,36 @@
++package com.example.peonline.statistics;
++
++import android.content.Intent;
++import android.os.Bundle;
++import android.view.View;
++import android.widget.Button;
++
++import androidx.appcompat.app.AppCompatActivity;
++
++import com.example.peonline.HomeActivity;
++import com.example.peonline.R;
++
++public class Statistics extends AppCompatActivity {
++    //statistic class should be connected to database
++
++
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        setContentView(R.layout.activity_statistics);
++
++        Back_to_HomeActivityButton();
++    }
++
++    private void Back_to_HomeActivityButton() {
++        Button statButton = (Button) findViewById(R.id.Statistics_back);
++        statButton.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++                startActivity(new Intent(Statistics.this,HomeActivity.class));
++            }
++        });
++    }
++
++
++}
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\n  <component name=\"GradleSettings\">\n    <option name=\"linkedExternalProjectsSettings\">\n      <GradleProjectSettings>\n        <option name=\"testRunner\" value=\"PLATFORM\" />\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\n        <option name=\"gradleJvm\" value=\"1.8\" />\n        <option name=\"modules\">\n          <set>\n            <option value=\"$PROJECT_DIR$\" />\n            <option value=\"$PROJECT_DIR$/app\" />\n          </set>\n        </option>\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\n      </GradleProjectSettings>\n    </option>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
++++ .idea/gradle.xml	(date 1605648674000)
+@@ -15,6 +15,7 @@
+           </set>
+         </option>
+         <option name="resolveModulePerSourceSet" value="false" />
++        <option name="useQualifiedModuleNames" value="true" />
+       </GradleProjectSettings>
+     </option>
+   </component>
+Index: app/src/main/res/layout/activity_enroll.xml
+===================================================================
+--- app/src/main/res/layout/activity_enroll.xml	(date 1605660223000)
++++ app/src/main/res/layout/activity_enroll.xml	(date 1605660223000)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="utf-8"?>
++<androidx.constraintlayout.widget.ConstraintLayout
++    xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"/>
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_1_7\" default=\"true\" project-jdk-name=\"1.8\" project-jdk-type=\"JavaSDK\">\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\n  </component>\n  <component name=\"ProjectType\">\n    <option name=\"id\" value=\"Android\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/misc.xml	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
++++ .idea/misc.xml	(date 1605648674000)
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/build/classes" />
+   </component>
+   <component name="ProjectType">
+Index: app/src/main/res/layout/activity_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:id=\"@+id/tv_email\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    tools:context=\".MainActivity\">\n\n    <ImageView\n        android:id=\"@+id/imageView3\"\n        android:layout_width=\"109dp\"\n        android:layout_height=\"122dp\"\n        app:layout_constraintBottom_toBottomOf=\"parent\"\n        app:layout_constraintEnd_toEndOf=\"parent\"\n        app:layout_constraintStart_toStartOf=\"parent\"\n        app:layout_constraintTop_toTopOf=\"parent\"\n        app:layout_constraintVertical_bias=\"0.106\"\n        app:srcCompat=\"@drawable/pe_logo\" />\n\n    <EditText\n        android:id=\"@+id/et_email\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        android:ems=\"10\"\n        android:inputType=\"textEmailAddress\"\n        android:hint = \"Email\"\n        app:layout_constraintBottom_toBottomOf=\"parent\"\n        app:layout_constraintEnd_toEndOf=\"parent\"\n        app:layout_constraintHorizontal_bias=\"0.562\"\n        app:layout_constraintStart_toStartOf=\"parent\"\n        app:layout_constraintTop_toBottomOf=\"@+id/imageView3\"\n        app:layout_constraintVertical_bias=\"0.188\" />\n\n    <EditText\n        android:id=\"@+id/et_password\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        android:ems=\"10\"\n        android:hint=\"Password\"\n        android:inputType=\"textPassword\"\n        app:layout_constraintBottom_toBottomOf=\"parent\"\n        app:layout_constraintEnd_toEndOf=\"parent\"\n        app:layout_constraintHorizontal_bias=\"0.572\"\n        app:layout_constraintStart_toStartOf=\"parent\"\n        app:layout_constraintTop_toBottomOf=\"@+id/et_email\"\n        app:layout_constraintVertical_bias=\"0.047\" />\n\n    <TextView\n        android:id=\"@+id/tv_register\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        android:onClick=\"Register\"\n        android:text=\"Sign Up\"\n        app:layout_constraintBottom_toBottomOf=\"parent\"\n        app:layout_constraintEnd_toEndOf=\"parent\"\n        app:layout_constraintHorizontal_bias=\"0.316\"\n        app:layout_constraintStart_toStartOf=\"parent\"\n        app:layout_constraintTop_toTopOf=\"parent\"\n        app:layout_constraintVertical_bias=\"0.564\" />\n\n    <Button\n        android:id=\"@+id/bt_login\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        android:onClick=\"login\"\n        android:text=\"Login\"\n        app:layout_constraintBottom_toBottomOf=\"parent\"\n        app:layout_constraintEnd_toEndOf=\"parent\"\n        app:layout_constraintHorizontal_bias=\"0.504\"\n        app:layout_constraintStart_toStartOf=\"parent\"\n        app:layout_constraintTop_toBottomOf=\"@+id/et_password\"\n        app:layout_constraintVertical_bias=\"0.227\" />\n\n\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_main.xml	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
++++ app/src/main/res/layout/activity_main.xml	(date 1605660670000)
+@@ -54,10 +54,10 @@
+         android:text="Sign Up"
+         app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintHorizontal_bias="0.316"
++        app:layout_constraintHorizontal_bias="0.498"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+-        app:layout_constraintVertical_bias="0.564" />
++        app:layout_constraintVertical_bias="0.742" />
+ 
+     <Button
+         android:id="@+id/bt_login"
+Index: app/src/main/res/layout/activity_statistics.xml
+===================================================================
+--- app/src/main/res/layout/activity_statistics.xml	(date 1605660670000)
++++ app/src/main/res/layout/activity_statistics.xml	(date 1605660670000)
+@@ -0,0 +1,42 @@
++<?xml version="1.0" encoding="utf-8"?>
++<androidx.constraintlayout.widget.ConstraintLayout
++    xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent">
++
++    <Button
++        android:id="@+id/Statistics_back"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="Go to Home Page"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.099"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent"
++        app:layout_constraintVertical_bias="0.92" />
++
++    <TextView
++        android:id="@+id/textView"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="Statistics "
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.487"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent"
++        app:layout_constraintVertical_bias="0.07" />
++
++    <EditText
++        android:id="@+id/editTextTextPersonName2"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:ems="10"
++        android:inputType="textPersonName"
++        android:text="Name"
++        tools:layout_editor_absoluteX="16dp"
++        tools:layout_editor_absoluteY="87dp" />
++</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/example/peonline/enroll/EnrollActivity.java
+===================================================================
+--- app/src/main/java/com/example/peonline/enroll/EnrollActivity.java	(date 1605658038000)
++++ app/src/main/java/com/example/peonline/enroll/EnrollActivity.java	(date 1605658038000)
+@@ -0,0 +1,18 @@
++package com.example.peonline.enroll;
++
++import android.os.Bundle;
++
++import androidx.appcompat.app.AppCompatActivity;
++
++import com.example.peonline.R;
++
++public class EnrollActivity extends AppCompatActivity {
++    //enroll to class activity
++
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        setContentView(R.layout.activity_enroll);
++
++    }
++}
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.application'\napply plugin: 'com.google.gms.google-services'\n\nandroid {\n    compileSdkVersion 30\n    buildToolsVersion \"30.0.0\"\n\n    defaultConfig {\n        applicationId \"com.example.peonline\"\n        minSdkVersion 16\n        targetSdkVersion 30\n        versionCode 1\n        versionName \"1.0\"\n\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\n    }\n\n    buildTypes {\n        release {\n            minifyEnabled false\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\n        }\n    }\n}\n\ndependencies {\n    implementation fileTree(dir: \"libs\", include: [\"*.jar\"])\n    implementation 'androidx.appcompat:appcompat:1.2.0'\n    implementation 'com.google.android.material:material:1.2.1'\n    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'\n    implementation platform('com.google.firebase:firebase-bom:26.0.0')\n    implementation 'com.google.firebase:firebase-analytics'\n    implementation 'com.google.firebase:firebase-storage'\n    implementation 'com.google.firebase:firebase-database:16.0.4'\n    implementation 'androidx.navigation:navigation-fragment:2.3.1'\n    implementation 'androidx.navigation:navigation-ui:2.3.1'\n    implementation 'com.google.android.gms:play-services-maps:17.0.0'\n    implementation 'com.google.firebase:firebase-auth:20.0.0'\n    testImplementation 'junit:junit:4.12'\n    androidTestImplementation 'androidx.test.ext:junit:1.1.2'\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
++++ app/build.gradle	(date 1605652475000)
+@@ -35,9 +35,8 @@
+     implementation 'androidx.navigation:navigation-fragment:2.3.1'
+     implementation 'androidx.navigation:navigation-ui:2.3.1'
+     implementation 'com.google.android.gms:play-services-maps:17.0.0'
+-    implementation 'com.google.firebase:firebase-auth:20.0.0'
+     testImplementation 'junit:junit:4.12'
+     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+ 
+-}
++}
+\ No newline at end of file
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    package=\"com.example.peonline\">\n\n    <uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />\n    <uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />\n    <uses-permission android:name=\"android.permission.ACCESS_BACKGROUND_LOCATION\" />\n\n    <application\n        android:allowBackup=\"true\"\n        android:icon=\"@mipmap/ic_launcher\"\n        android:label=\"@string/app_name\"\n        android:roundIcon=\"@mipmap/ic_launcher_round\"\n        android:supportsRtl=\"true\"\n        android:theme=\"@style/AppTheme\">\n        <activity\n            android:name=\".home\"\n            android:label=\"@string/title_activity_home\"\n            android:theme=\"@style/AppTheme.NoActionBar\"></activity>\n        <activity\n            android:name=\".register\"\n            android:label=\"@string/title_activity_register\"\n            android:theme=\"@style/AppTheme.NoActionBar\" />\n\n        <meta-data android:name=\"com.google.android.gms.version\" />\n\n        <activity\n            android:name=\".MainActivity\"\n            android:label=\"@string/app_name\"\n            android:theme=\"@style/AppTheme.NoActionBar\">\n            <intent-filter>\n                <action android:name=\"android.intent.action.MAIN\" />\n\n                <category android:name=\"android.intent.category.LAUNCHER\" />\n            </intent-filter>\n        </activity>\n        <activity android:name=\".gps.LocationTracker\">\n            <intent-filter>\n                <category android:name=\"android.intent.category.LAUNCHER\" />\n            </intent-filter>\n        </activity>\n    </application>\n\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(revision f39ad921dc6c8a601cb646c12bf8ff0872297027)
++++ app/src/main/AndroidManifest.xml	(date 1605660781000)
+@@ -14,11 +14,19 @@
+         android:supportsRtl="true"
+         android:theme="@style/AppTheme">
+         <activity
+-            android:name=".home"
++            android:name=".HomeActivity"
+             android:label="@string/title_activity_home"
+             android:theme="@style/AppTheme.NoActionBar"></activity>
+         <activity
+-            android:name=".register"
++            android:name=".enroll.EnrollActivity"
++            android:label="enroll"
++            android:theme="@style/AppTheme.NoActionBar"></activity>
++        <activity
++            android:name=".statistics.Statistics"
++            android:label="statistic"
++            android:theme="@style/AppTheme.NoActionBar"></activity>
++        <activity
++            android:name=".RegisterActivity"
+             android:label="@string/title_activity_register"
+             android:theme="@style/AppTheme.NoActionBar" />
+ 

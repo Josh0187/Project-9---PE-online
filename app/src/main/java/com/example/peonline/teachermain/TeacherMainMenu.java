@@ -4,61 +4,27 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.peonline.R;
-import com.example.peonline.database.Course;
-import com.example.peonline.login.MainActivity;
-import com.example.peonline.login.User;
-import com.example.peonline.studentmain.StudentMainMenu;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
-import android.widget.TextView;
-
-import java.util.ArrayList;
+import android.widget.Button;
 
 public class TeacherMainMenu extends AppCompatActivity {
-
-    public static TextView courseKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_main_menu);
-        courseKey = findViewById(R.id.tv_courseKey);
 
-
-        String ID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference databaseref = database.getReference("Users/"+ID);
-
-        databaseref.addValueEventListener(new ValueEventListener() {
+        //switch to assignment add activity
+        Button add_assignment_button = (Button) findViewById(R.id.add_assignment);
+        add_assignment_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                int numOfClasses = snapshot.child("numOfClasses").getValue(Integer.class);
-                ArrayList<String> classIDs = new ArrayList<String>();
-                for (DataSnapshot dataSnapshot : snapshot.child("classID").getChildren()) {
-                    classIDs.add(dataSnapshot.getValue().toString());
-                }
-
-                if (classIDs.isEmpty()) {
-                    databaseref.removeEventListener(this);
-                }
-                else {
-                    courseKey.setText(classIDs.get(classIDs.size() - 1));
-                    databaseref.removeEventListener(this);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+            public void onClick(View v) {
+                Intent intent = new Intent(TeacherMainMenu.this, AssignmentActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -67,18 +33,10 @@ public class TeacherMainMenu extends AppCompatActivity {
 
     public void logOut(View view) {
         FirebaseAuth.getInstance().signOut();
-        Intent toMainIntent = new Intent(TeacherMainMenu.this, MainActivity.class);
-        startActivity(toMainIntent);
+        finish();
     }
 
     public void viewClass(View view) {
 
     }
-
-    public void createCourse(View view) {
-        Intent createClassIntent = new Intent(TeacherMainMenu.this, createCourse.class);
-        startActivity(createClassIntent);
-    }
-
-
 }
