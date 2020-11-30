@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
         emailID = findViewById(R.id.et_email);
         password = findViewById(R.id.et_password);
 
+        //FirebaseAuth.getInstance().signOut();
+
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {

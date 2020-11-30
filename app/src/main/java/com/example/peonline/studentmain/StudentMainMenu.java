@@ -34,9 +34,9 @@ public class StudentMainMenu extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         List<Assignment> listExample = new ArrayList<>();
-        listExample.add(new Assignment("title 1","body 1"));
-        listExample.add(new Assignment("title 2","body 2"));
-        listExample.add(new Assignment("title 3","body 3"));
+        listExample.add(new Assignment("title 1","body 1",true));
+        listExample.add(new Assignment("title 2","body 2",false));
+        listExample.add(new Assignment("title 3","body 3",true));
 
 
         RecycleVewAdaptor adaptor = new RecycleVewAdaptor(listExample);

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,9 @@ public class AssignmentActivity extends AppCompatActivity {
 
     private String Ass_title;
     private String Ass_body;
+    public Boolean Stationary = false;
+
+    private CheckBox check1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +38,21 @@ public class AssignmentActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //CheckBox
+        addListnerToCheckBox();
     }
 
-    public String getAss_title() {
-        return Ass_title;
-    }
-
-    public String getAss_body() {
-        return Ass_body;
+    public void addListnerToCheckBox(){
+        check1 = (CheckBox) findViewById(R.id.checkBox_stationary);
+        check1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(((CheckBox)v).isChecked()){
+                    Stationary = true;
+                }
+            }
+        });
     }
 
     public void setAss_title() {
