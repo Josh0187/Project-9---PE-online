@@ -1,0 +1,202 @@
+Index: app/src/main/java/com/example/peonline/gps/LocationTracker.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.peonline.gps;\n\nimport android.Manifest;\nimport android.content.pm.PackageManager;\nimport android.location.Location;\nimport android.location.LocationListener;\nimport android.location.LocationManager;\nimport android.os.Build;\nimport android.os.Bundle;\nimport android.util.Log;\n\nimport androidx.annotation.RequiresApi;\nimport androidx.core.app.ActivityCompat;\nimport androidx.fragment.app.FragmentActivity;\n\nimport com.example.peonline.R;\nimport com.google.android.gms.maps.CameraUpdateFactory;\nimport com.google.android.gms.maps.GoogleMap;\nimport com.google.android.gms.maps.OnMapReadyCallback;\nimport com.google.android.gms.maps.SupportMapFragment;\nimport com.google.android.gms.maps.model.LatLng;\nimport com.google.android.gms.maps.model.MarkerOptions;\n\nimport java.util.ArrayList;\n\npublic class LocationTracker extends FragmentActivity implements OnMapReadyCallback {\n\n\n    private LocationManager locationManager;\n    private LatLng latLng;\n    private ArrayList<LatLng> points;\n\n    private static final int MIN_DIST = 5; //5 meters\n    private static final int MIN_TIME = 5000; //5 seconds\n\n    private LocationListener locationListener;\n\n\n    public LocationTracker(ArrayList<LatLng> mapPoints) {\n         points = mapPoints;\n    }\n\n\n    @Override\n    protected void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n        setContentView(R.layout.activity_maps);\n        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()\n                .findFragmentById(R.id.map);\n        mapFragment.getMapAsync(this);\n\n\n        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PackageManager.PERMISSION_GRANTED);\n        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PackageManager.PERMISSION_GRANTED);\n        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {\n            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION}, PackageManager.PERMISSION_GRANTED);\n        }\n\n        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {\n            return;\n        }\n        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {\n            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED) {\n                return;\n            }\n        }\n    }\n\n    @RequiresApi(api = Build.VERSION_CODES.P)\n    @Override\n    public void onMapReady(GoogleMap map) {\n        final GoogleMap googleMap = map;\n\n        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);\n\n        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {\n            // TODO: Consider calling\n            //    ActivityCompat#requestPermissions\n            // here to request the missing permissions, and then overriding\n            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,\n            //                                          int[] grantResults)\n            // to handle the case where the user grants the permission. See the documentation\n            // for ActivityCompat#requestPermissions for more details.\n            return;\n        }\n        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);\n        if (location != null) {\n            Log.w(\"location not null\",  \"=\" + true);\n        }\n        latLng = new LatLng(location.getLatitude(), location.getLongitude());\n        points.add(latLng);\n        googleMap.addMarker(new MarkerOptions().position(latLng).title(\"My Position\"));\n        googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));\n\n        locationListener = new LocationListener() {\n            @Override\n            public void onLocationChanged(Location location) {\n\n                try {\n                    latLng = new LatLng(location.getLatitude(), location.getLongitude());\n                    points.add(latLng);\n                    googleMap.addMarker(new MarkerOptions().position(latLng).title(\"My Position\"));\n                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));\n                } catch (SecurityException e) {\n                    e.printStackTrace();\n                }\n\n            }\n            @Override\n            public void onStatusChanged(String s, int i, Bundle bundle) {\n\n            }\n\n            @Override\n            public void onProviderEnabled(String s) {\n\n            }\n\n            @Override\n            public void onProviderDisabled(String s) {\n\n            }\n        };\n\n        try {\n            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DIST, locationListener);\n        }\n        catch (SecurityException e){\n            e.printStackTrace();\n        }\n    }\n\n    public void stopUsingGPS(){\n        if(locationManager != null) {\n            locationManager.removeUpdates((LocationListener) LocationTracker.this);\n        }\n    }\n}\n\n\n\n\n\n\n\n\n/* please add this to where ever the code is for app startup. if no gps permission, app should not run\n        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PackageManager.PERMISSION_GRANTED);\n        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PackageManager.PERMISSION_GRANTED);\n        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION}, PackageManager.PERMISSION_GRANTED);\n */
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/peonline/gps/LocationTracker.java	(revision fadb7222bef0f0819b85f29dfe256f85e4ef76fc)
++++ app/src/main/java/com/example/peonline/gps/LocationTracker.java	(date 1604959684000)
+@@ -1,6 +1,7 @@
+ package com.example.peonline.gps;
+ 
+ import android.Manifest;
++import android.content.Intent;
+ import android.content.pm.PackageManager;
+ import android.location.Location;
+ import android.location.LocationListener;
+@@ -8,11 +9,14 @@
+ import android.os.Build;
+ import android.os.Bundle;
+ import android.util.Log;
++import android.view.View;
++import android.widget.Button;
+ 
+ import androidx.annotation.RequiresApi;
+ import androidx.core.app.ActivityCompat;
+ import androidx.fragment.app.FragmentActivity;
+ 
++import com.example.peonline.DataCalculation;
+ import com.example.peonline.R;
+ import com.google.android.gms.maps.CameraUpdateFactory;
+ import com.google.android.gms.maps.GoogleMap;
+@@ -23,6 +27,7 @@
+ 
+ import java.util.ArrayList;
+ 
++
+ public class LocationTracker extends FragmentActivity implements OnMapReadyCallback {
+ 
+ 
+@@ -35,16 +40,18 @@
+ 
+     private LocationListener locationListener;
+ 
+-
+-    public LocationTracker(ArrayList<LatLng> mapPoints) {
+-         points = mapPoints;
+-    }
++    // needs a default constructor in order to exist in manifest as an action
++    // so it could be activated when user press button (@Kris)
++    public LocationTracker() { }
+ 
+-
++  //function below should display map on the activity_maps.xml (line 8 code),
++  //however i got an error message. (@Kris)
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+-        setContentView(R.layout.activity_maps);
++        setContentView(R.layout.activity_maps);   // u displayed activity_maps.xml but did not
++                                                   // code how fragment of the map will be added to context view
++
+         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                 .findFragmentById(R.id.map);
+         mapFragment.getMapAsync(this);
+@@ -64,7 +71,21 @@
+                 return;
+             }
+         }
++
++        final Button Stop = (Button) findViewById(R.id.Stop_gps_button);
++        Stop.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++                stopUsingGPS();            //i called your method to stop tracking (@kristina)
++            }
++        });
+     }
++
++    // added for future, so stop button can open data calculation activity when pressed.
++   /* private void StopLocationTracker() {
++        Intent intent = new Intent(this, DataCalculation.class);
++        startActivity(intent);
++    }*/
+ 
+     @RequiresApi(api = Build.VERSION_CODES.P)
+     @Override
+@@ -88,7 +109,6 @@
+             Log.w("location not null",  "=" + true);
+         }
+         latLng = new LatLng(location.getLatitude(), location.getLongitude());
+-        points.add(latLng);
+         googleMap.addMarker(new MarkerOptions().position(latLng).title("My Position"));
+         googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+ 
+@@ -98,7 +118,6 @@
+ 
+                 try {
+                     latLng = new LatLng(location.getLatitude(), location.getLongitude());
+-                    points.add(latLng);
+                     googleMap.addMarker(new MarkerOptions().position(latLng).title("My Position"));
+                     googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                 } catch (SecurityException e) {
+@@ -137,13 +156,6 @@
+     }
+ }
+ 
+-
+-
+-
+-
+-
+-
+-
+ /* please add this to where ever the code is for app startup. if no gps permission, app should not run
+         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PackageManager.PERMISSION_GRANTED);
+         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PackageManager.PERMISSION_GRANTED);
+Index: app/src/main/res/layout/activity_maps.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<fragment xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:map=\"http://schemas.android.com/apk/res-auto\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:id=\"@+id/map\"\n    android:name=\"com.google.android.gms.maps.SupportMapFragment\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    tools:context=\".MapsActivity\" />
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_maps.xml	(revision fadb7222bef0f0819b85f29dfe256f85e4ef76fc)
++++ app/src/main/res/layout/activity_maps.xml	(date 1604959254000)
+@@ -1,9 +1,36 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:map="http://schemas.android.com/apk/res-auto"
++<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:id="@+id/map"
+     android:name="com.google.android.gms.maps.SupportMapFragment"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+-    tools:context=".MapsActivity" />
+\ No newline at end of file
++    tools:context=".gps.LocationTracker" >
++
++    <fragment
++        class="com.google.android.gms.maps.SupportMapFragment"
++        android:layout_width="match_parent"
++        android:layout_height="525dp"
++        android:layout_alignParentEnd="true"
++        android:layout_alignParentRight="true"
++        android:layout_marginEnd="0dp"
++        android:layout_marginRight="0dp" />
++
++    <Button
++        android:id="@+id/Stop_gps_button"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_alignParentStart="true"
++        android:layout_alignParentLeft="true"
++        android:layout_alignParentTop="true"
++        android:layout_alignParentEnd="true"
++        android:layout_alignParentRight="true"
++        android:layout_alignParentBottom="true"
++        android:layout_marginStart="159dp"
++        android:layout_marginLeft="159dp"
++        android:layout_marginTop="592dp"
++        android:layout_marginEnd="164dp"
++        android:layout_marginRight="164dp"
++        android:layout_marginBottom="91dp"
++        android:text="@string/stop" />
++</RelativeLayout>
+\ No newline at end of file
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\n  <component name=\"GradleSettings\">\n    <option name=\"linkedExternalProjectsSettings\">\n      <GradleProjectSettings>\n        <option name=\"testRunner\" value=\"PLATFORM\" />\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\n        <option name=\"gradleJvm\" value=\"1.8\" />\n        <option name=\"modules\">\n          <set>\n            <option value=\"$PROJECT_DIR$\" />\n            <option value=\"$PROJECT_DIR$/app\" />\n          </set>\n        </option>\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\n      </GradleProjectSettings>\n    </option>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(revision fadb7222bef0f0819b85f29dfe256f85e4ef76fc)
++++ .idea/gradle.xml	(date 1604959374000)
+@@ -15,6 +15,7 @@
+           </set>
+         </option>
+         <option name="resolveModulePerSourceSet" value="false" />
++        <option name="useQualifiedModuleNames" value="true" />
+       </GradleProjectSettings>
+     </option>
+   </component>
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_1_7\" default=\"true\" project-jdk-name=\"1.8\" project-jdk-type=\"JavaSDK\">\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\n  </component>\n  <component name=\"ProjectType\">\n    <option name=\"id\" value=\"Android\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/misc.xml	(revision fadb7222bef0f0819b85f29dfe256f85e4ef76fc)
++++ .idea/misc.xml	(date 1604959374000)
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/build/classes" />
+   </component>
+   <component name="ProjectType">
