@@ -14,6 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".teachermain.ViewClass"
+            android:label="@string/title_activity_view_class"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".studentmain.StudentMainMenu"
             android:label="@string/title_activity_student_main_menu" />
         <activity
@@ -25,14 +29,22 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".gps.GPSActivity"
-            android:label="@string/gps_activity"/>
+            android:label="@string/gps_activity" />
+
         <service android:name=".gps.GPSService" />
+
         <activity
             android:name=".video.VideoSubmission"
             android:label="submit_video" />
         <activity
+            android:name=".teachermain.createCourse"
+            android:label="createCourse" />
+        <activity
             android:name=".teachermain.AssignmentActivity"
-            android:label="Assignment"/>
+            android:label="Assignment" />
+        <activity
+            android:name=".studentmain.Enroll"
+             />
 
         <meta-data android:name="com.google.android.gms.version" />
 

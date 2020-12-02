@@ -10,6 +10,7 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.peonline.R;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class AssignmentActivity extends AppCompatActivity {
 
@@ -58,6 +59,10 @@ public class AssignmentActivity extends AppCompatActivity {
     public void setAss_title() {
         EditText simpleEditText = (EditText) findViewById(R.id.assignment_name);
         Ass_title = simpleEditText.getText().toString();
+
+
+        // FirebaseDatabase.getInstance().getReference().child("")
+
     }
 
     public void setAss_body() {
