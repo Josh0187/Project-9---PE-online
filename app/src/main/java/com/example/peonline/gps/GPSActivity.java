@@ -8,8 +8,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.os.SystemClock;
-import android.security.identity.CipherSuiteNotSupportedException;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -29,9 +29,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.time.Instant;
-import java.util.ArrayList;
-
 public class GPSActivity extends AppCompatActivity {
 
     private static final String TAG = "gpsactivity";
@@ -49,6 +46,7 @@ public class GPSActivity extends AppCompatActivity {
     private TextView tv_distance;
     private TextView tv_time;
     private TextView tv_speed;
+    private PowerManager.WakeLock wakeLock = null;
 
 
     private ServiceConnection connection = new ServiceConnection() {
@@ -106,6 +104,7 @@ public class GPSActivity extends AppCompatActivity {
         Button button = findViewById(R.id.GPSTracking);
         Intent intent = new Intent(this, GPSService.class);
         if (!started) {
+            wakeLock.acquire();
             startTime = SystemClock.elapsedRealtime();
             button.setText("Stop Tracking Distance");
             startService(intent);
@@ -117,6 +116,7 @@ public class GPSActivity extends AppCompatActivity {
             Log.d(TAG, "gps started ");
         }
         else {
+            wakeLock.release();
             endTime = SystemClock.elapsedRealtime();
             elapsedTime = endTime - startTime;
             elapsedSeconds = elapsedTime/1000;
