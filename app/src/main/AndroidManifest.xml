@@ -21,7 +21,7 @@
             android:label="@string/title_activity_view_student_stats"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".teachermain.nonStationarySubmission"
+            android:name=".teachermain.NonStationarySubmission"
             android:label="@string/title_activity_non_stationary_submission"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -59,7 +59,7 @@
             android:name=".video.PlayVideoActivity"
             android:label="play video" />
         <activity
-            android:name=".teachermain.createCourse"
+            android:name=".teachermain.CreateCourse"
             android:label="createCourse" />
         <activity
             android:name=".teachermain.AssignmentActivity"

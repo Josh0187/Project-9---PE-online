@@ -22,32 +22,6 @@
         app:layout_constraintVertical_bias="0.023" />
 
     <Button
-        android:id="@+id/button3"
-        android:layout_width="136dp"
-        android:layout_height="69dp"
-        android:onClick="locationActivity"
-        android:text="Cardio Exercise"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.032"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.975" />
-
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="118dp"
-        android:layout_height="56dp"
-        android:onClick="videoActivity"
-        android:text="Record Video of Exercise"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.957" />
-
-    <Button
         android:id="@+id/bt_goToEnroll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

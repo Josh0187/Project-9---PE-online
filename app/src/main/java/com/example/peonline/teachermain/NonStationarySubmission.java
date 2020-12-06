@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.example.peonline.R;
 
-public class nonStationarySubmission extends AppCompatActivity {
+public class NonStationarySubmission extends AppCompatActivity {
 
     private String studentName;
     private float distance;

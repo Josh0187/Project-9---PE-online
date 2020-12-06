@@ -1,8 +1,6 @@
 package com.example.peonline.teachermain;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,25 +8,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.peonline.R;
-import com.example.peonline.database.Student;
 import com.example.peonline.video.PlayVideoActivity;
 import com.example.peonline.video.Video;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
-
-import static android.provider.CalendarContract.CalendarCache.URI;
 
 public class RecycleVewAdaptorSubmission extends RecyclerView.Adapter<RecycleVewAdaptorSubmission.Viewholder>  {
 
@@ -97,7 +86,7 @@ public class RecycleVewAdaptorSubmission extends RecyclerView.Adapter<RecycleVew
             // Non-stationary (GPS stats)
             else {
                 Submission coolSubmission1 = submissionList.get(this.getAdapterPosition());
-                Intent statsIntent = new Intent(view.getContext(), nonStationarySubmission.class);
+                Intent statsIntent = new Intent(view.getContext(), NonStationarySubmission.class);
                 statsIntent.putExtra("studentName", coolSubmission1.getSubmitterName());
                 statsIntent.putExtra("distance", coolSubmission1.getDistance());
                 statsIntent.putExtra("speed", coolSubmission1.getSpeed());

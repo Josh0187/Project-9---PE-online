@@ -4,13 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.peonline.database.Course;
-import com.example.peonline.login.User;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
 import android.widget.EditText;
@@ -25,7 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class createCourse extends AppCompatActivity {
+public class CreateCourse extends AppCompatActivity {
 
     EditText className;
 
@@ -72,7 +68,7 @@ public class createCourse extends AppCompatActivity {
 
             }
         });
-        Intent teacherMainIntent = new Intent(createCourse.this, TeacherMainMenu.class);
+        Intent teacherMainIntent = new Intent(CreateCourse.this, TeacherMainMenu.class);
         startActivity(teacherMainIntent);
     }
 }

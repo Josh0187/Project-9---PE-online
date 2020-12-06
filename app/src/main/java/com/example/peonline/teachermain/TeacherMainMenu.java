@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
-import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,7 +120,7 @@ public class TeacherMainMenu extends AppCompatActivity {
     }
 
     public void goToCreateCourse(View view) {
-        Intent intent = new Intent(this, createCourse.class);
+        Intent intent = new Intent(this, CreateCourse.class);
         startActivity(intent);
     }
 }

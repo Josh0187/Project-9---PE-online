@@ -5,7 +5,7 @@
     android:id="@+id/tv_email"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".teachermain.createCourse">
+    tools:context=".teachermain.CreateCourse">
 
     <Button
         android:id="@+id/bt_createClass"
