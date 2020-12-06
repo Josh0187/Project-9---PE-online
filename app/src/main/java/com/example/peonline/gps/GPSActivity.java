@@ -19,8 +19,6 @@ import androidx.core.app.ActivityCompat;
 
 import com.example.peonline.R;
 
-import java.time.Instant;
-
 public class GPSActivity extends AppCompatActivity {
 
     private static final String TAG = "gpsactivity";
