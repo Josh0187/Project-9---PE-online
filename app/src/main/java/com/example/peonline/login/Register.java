@@ -65,7 +65,7 @@ public class Register extends AppCompatActivity {
         String email = emailID.getText().toString();
         String pwd = password.getText().toString();
         final String name = Name.getText().toString();
-        final User newuser = new User(name, isTeacher);
+        final User newuser = new User(name, isTeacher,0);
 
 
 
@@ -97,6 +97,7 @@ public class Register extends AppCompatActivity {
                     // account creation is successful
                     else {
                         FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(newuser);
+                        FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("numOfClasses").setValue(0);
                         Intent loginIntent = new Intent(Register.this, MainActivity.class);
                         startActivity(loginIntent);
                     }

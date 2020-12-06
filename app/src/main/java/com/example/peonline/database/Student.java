@@ -62,6 +62,14 @@ public class Student implements Serializable {
 
      */
 
+    public String getClassID() {
+        return classID;
+    }
+
+    public void setClassID(String classID) {
+        this.classID = classID;
+    }
+
     public int getNumOfExercises() {
         return NumOfExercises;
     }

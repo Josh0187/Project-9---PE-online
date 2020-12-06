@@ -6,8 +6,9 @@ import android.os.Bundle;
 import com.example.peonline.R;
 import com.example.peonline.gps.GPSActivity;
 import com.example.peonline.login.MainActivity;
-import com.example.peonline.login.User;
-import com.example.peonline.teachermain.TeacherMainMenu;
+import com.example.peonline.teachermain.Assignment;
+import com.example.peonline.teachermain.Class;
+import com.example.peonline.teachermain.RecycleVewAdaptor;
 import com.example.peonline.video.VideoSubmission;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -18,32 +19,68 @@ import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
-import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class StudentMainMenu extends AppCompatActivity {
 
-    TextView classEnrolled;
-
+    private RecyclerView recyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_main_menu);
 
-        classEnrolled = findViewById(R.id.tv_class);
+        recyclerView = findViewById(R.id.rv_studentClasses);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
 
+        // Find classID and class Name in database
         String ID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference databaseref = database.getReference("Users/" + ID);
 
         databaseref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
-                String CourseKey = user.getClassID();
-                if (!CourseKey.isEmpty()) {
-                    displayClassName();
+                ArrayList<String> classIDs = new ArrayList<String>();
+                for (DataSnapshot dataSnapshot : snapshot.child("classID").getChildren()) {
+                    classIDs.add(dataSnapshot.getValue().toString());
+                }
+                final ArrayList<String> allClassIDs = classIDs;
+                if (classIDs.isEmpty()) {
+                    databaseref.removeEventListener(this);
+                }
+                else {
+                    final DatabaseReference databaseRefCourse = database.getReference("Courses/");
+
+                    databaseRefCourse.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            ArrayList<Class> allClasses = new ArrayList<Class>();
+
+                            for (String courseKey: allClassIDs) {
+                                String className = snapshot.child(courseKey).child("courseName").getValue().toString();
+                                Class newClass = new Class(className, courseKey);
+                                allClasses.add(newClass);
+                            }
+
+
+
+                            setRv(allClasses);
+                            databaseRefCourse.removeEventListener(this);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                 }
                 databaseref.removeEventListener(this);
             }
@@ -53,54 +90,25 @@ public class StudentMainMenu extends AppCompatActivity {
 
             }
         });
-
     }
 
-    public void displayClassName() {
-        String ID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference databaseref = database.getReference("Users/" + ID);
+    public void setRv(ArrayList<Class> classes) {
+        List<Class> listExample = new ArrayList<Class>();
+        for (Class classe: classes) {
+            listExample.add(classe);
+        }
 
-        databaseref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
-                String CourseKey = user.getClassID();
+        RecycleVewAdaptorStudent adaptor = new RecycleVewAdaptorStudent(listExample);
+        recyclerView.setAdapter(adaptor);
 
-
-                final DatabaseReference databaseRefcourse = FirebaseDatabase.getInstance().getReference("Courses/" + CourseKey);
-                databaseRefcourse.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        // finding name of class and displaying it
-                        DataSnapshot dataSnapshotCourseName = snapshot.child("courseName");
-                        String courseName = dataSnapshotCourseName.getValue().toString();
-                        classEnrolled.setText(courseName);
-                        databaseRefcourse.removeEventListener(this);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-                databaseref.removeEventListener(this);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        adaptor.notifyDataSetChanged();
     }
-
-
-
 
     public void logOut(View view) {
         FirebaseAuth.getInstance().signOut();
-        Intent intToMain = new Intent(StudentMainMenu.this, MainActivity.class);
-        startActivity(intToMain);
+        finish();
+        Intent toMainIntent = new Intent(StudentMainMenu.this, MainActivity.class);
+        startActivity(toMainIntent);
     }
 
     public void locationActivity(View view) {
@@ -114,7 +122,16 @@ public class StudentMainMenu extends AppCompatActivity {
     }
 
     public void goToEnroll(View view) {
-        Intent intent = new Intent(this, Enroll.class);
-        startActivity(intent);
+        Intent i = new Intent(this, Enroll.class);
+        startActivity(i);
+
+    }
+
+    public void viewAssignments(View view) {
+
+    }
+
+    public void viewSelfStats(View view) {
+
     }
 }

@@ -42,38 +42,68 @@ public class Enroll extends AppCompatActivity {
     public void enroll(View view) {
         final String CourseKey = courseKey.getText().toString();
         final String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        // check if key exists
 
-        // Retreive the student's name from the database
-        final DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Users/"+userID+"/name");
-        databaseRef.addValueEventListener(new ValueEventListener() {
+
+        final DatabaseReference databaseRefcheck = FirebaseDatabase.getInstance().getReference("Courses/");
+        databaseRefcheck.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                final String name = snapshot.getValue().toString();
+                if (!snapshot.hasChild(CourseKey)) {
+                    courseKey.setError("Course does not exists");
+                    databaseRefcheck.removeEventListener(this);
+                }
+                else {
+                    final DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Users/"+userID);
+                    databaseRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                final DatabaseReference databaseRefcourse = FirebaseDatabase.getInstance().getReference("Courses/"+CourseKey);
-                databaseRefcourse.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        // Adding the student to the list of students in the course
-                        DataSnapshot dataSnapshotStudents = snapshot.child("numOfStudents");
-                        int numOfStudents = dataSnapshotStudents.getValue(Integer.class);
-                        FirebaseDatabase.getInstance().getReference().child("Courses").child(CourseKey).child("students").child(Integer.toString(numOfStudents+1)).setValue(name);
-                        FirebaseDatabase.getInstance().getReference().child("Courses").child(CourseKey).child("numOfStudents").setValue(numOfStudents+1);
-                        // Update user info with course key
-                        FirebaseDatabase.getInstance().getReference().child("Users").child(userID).child("classID").setValue(CourseKey);
+                            int numOfClasses = snapshot.child("numOfClasses").getValue(Integer.class);
+                            ArrayList<String> classIDs = new ArrayList<String>();
+                            for (DataSnapshot dataSnapshot : snapshot.child("classID").getChildren()) {
+                                classIDs.add(dataSnapshot.getValue().toString());
+                            }
+                            classIDs.add(CourseKey);
 
-                        databaseRefcourse.removeEventListener(this);
-                    }
+                            FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("numOfClasses").setValue(numOfClasses+1);
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                            for (int i = 0; i < numOfClasses+1; i++) {
+                                FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("classID").child(Integer.toString(i)).setValue(classIDs.get(i));
+                            }
 
-                    }
-                });
-                // when finished go back to main menu
-                Intent StudentMainIntent = new Intent(Enroll.this, StudentMainMenu.class);
-                startActivity(StudentMainIntent);
+                            final DatabaseReference databaseRefcourse = FirebaseDatabase.getInstance().getReference("Courses/"+CourseKey);
+                            databaseRefcourse.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    // Adding the student to the list of students in the course
+                                    DataSnapshot dataSnapshotStudents = snapshot.child("numOfStudents");
+                                    int numOfStudents = dataSnapshotStudents.getValue(Integer.class);
+                                    FirebaseDatabase.getInstance().getReference().child("Courses").child(CourseKey).child("students").child(Integer.toString(numOfStudents+1)).setValue(userID);
+                                    FirebaseDatabase.getInstance().getReference().child("Courses").child(CourseKey).child("numOfStudents").setValue(numOfStudents+1);
 
+
+                                    databaseRefcourse.removeEventListener(this);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                            databaseRef.removeEventListener(this);
+                        }
+
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                    Intent StudentMainIntent = new Intent(Enroll.this, StudentMainMenu.class);
+                    startActivity(StudentMainIntent);
+                }
+                databaseRefcheck.removeEventListener(this);
             }
 
             @Override
@@ -81,6 +111,7 @@ public class Enroll extends AppCompatActivity {
 
             }
         });
+
 
     }
 }

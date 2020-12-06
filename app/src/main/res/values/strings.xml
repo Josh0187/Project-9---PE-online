@@ -1,6 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">PEonline</string>
     <string name="action_settings">Settings</string>
+
+    <string name="title_activity_register">register</string>
+    <string name="title_activity_home">home</string>
+    <string name="title_activity_teacher_main_menu">Main Menu</string>
+    <string name="title_activity_student_main_menu">Main Menu</string>
+    <string name="gps_activity"> GPS Activity </string>
+    <string name="assignment_description">Assignment description:</string>
+    <string name="add_description_here">add description here</string>
+    <string name="assignment_creation_mode">Assignment creation mode</string>
+    <string name="done">Done</string>
+    <string name="assignment_name">Assignment name:</string>
+    <string name="name">Name</string>
+    <string name="logout">Logout</string>
+    <string name="cardio_exercise">Cardio Exercise</string>
+    <string name="title_activity_view_class">ViewClass</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
@@ -9,10 +25,9 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="title_activity_register">register</string>
-    <string name="title_activity_home">home</string>
-    <string name="title_activity_teacher_main_menu">teacher_main_menu</string>
-    <string name="title_activity_student_main_menu">student_main_menu</string>
-    <string name="title_activity_enroll">Enroll</string>
-    <string name="title_activity_create_course">createCourse</string>
+    <string name="title_activity_view_assignments">ViewAssignments</string>
+    <string name="title_activity_view_submissions_for_assignment">ViewSubmissionsForAssignment
+    </string>
+    <string name="title_activity_non_stationary_submission">nonStationarySubmission</string>
+    <string name="title_activity_view_student_stats">ViewStudentStats</string>
 </resources>

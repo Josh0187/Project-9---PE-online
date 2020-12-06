@@ -5,29 +5,31 @@
     android:id="@+id/tv_email"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".teachermain.CreateCourse">
+    tools:context=".studentmain.ViewAssignments">
 
-    <Button
-        android:id="@+id/bt_createClass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Create Course"
-        android:onClick = "createClass"
+
+    <TextView
+        android:id="@+id/tv_className"
+        android:layout_width="280dp"
+        android:layout_height="43dp"
+        android:text="TextView"
+        android:textSize = "30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.19"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.612" />
+        app:layout_constraintVertical_bias="0.023" />
 
-    <EditText
-        android:id="@+id/et_className"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Class name"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_assignments"
+        android:layout_width="343dp"
+        android:layout_height="553dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.367"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

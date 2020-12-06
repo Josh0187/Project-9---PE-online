@@ -18,11 +18,17 @@ import com.example.peonline.login.MainActivity;
 import com.example.peonline.studentmain.StudentMainMenu;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.util.UUID;
 
 // Use for student submission page for each stationary assignment
 public class VideoSubmission extends AppCompatActivity {
@@ -32,6 +38,8 @@ public class VideoSubmission extends AppCompatActivity {
     private StorageReference storageReference;
     private DatabaseReference databaseReference;
     MediaController mediaController;
+    private String classKey;
+    private int assignmentNum;
 
 
     @Override
@@ -39,8 +47,16 @@ public class VideoSubmission extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.video_submission);
 
-        storageReference = FirebaseStorage.getInstance().getReference("videos");
-        databaseReference = FirebaseDatabase.getInstance().getReference("videos");
+
+        Bundle extras = getIntent().getExtras();
+
+        final String classID = extras.getString("classID");
+        classKey = classID;
+        final int assignmentNum1 = extras.getInt("assignmentNum");
+        assignmentNum  = assignmentNum1;
+
+        storageReference = FirebaseStorage.getInstance().getReference("videos/"+FirebaseAuth.getInstance().getCurrentUser().getUid());
+        databaseReference = FirebaseDatabase.getInstance().getReference("Courses/"+classKey+"/assignments/"+Integer.toString(assignmentNum1));
 
     }
 
@@ -69,16 +85,14 @@ public class VideoSubmission extends AppCompatActivity {
     // OnClick for submission button
     public void UploadVideo(View view) {
         if (videoUri != null) {
-            StorageReference reference = storageReference.child(System.currentTimeMillis()+"."+getFileExt(videoUri));
-
+            final String uniqueID = UUID.randomUUID().toString();
+            StorageReference reference = storageReference.child(uniqueID + "." + getFileExt(videoUri));
             reference.putFile(videoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText(getApplicationContext(), "Upload successful", Toast.LENGTH_SHORT);
-                    //replace "VideoSubmission" with string from edittext for name
-                    Video video = new Video("VideoSubmission", taskSnapshot.getUploadSessionUri().toString());
-                    String upload = databaseReference.push().getKey();
-                    databaseReference.child(upload).setValue(video);
+                    Video video = new Video(uniqueID, taskSnapshot.getUploadSessionUri().toString());
+                    databaseReference.child("submissions").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(video);
                     //Go back to student main menu after submission
                     Intent studentMainIntent = new Intent(VideoSubmission.this, StudentMainMenu.class);
                     startActivity(studentMainIntent);

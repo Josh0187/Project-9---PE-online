@@ -11,6 +11,7 @@ public class Course {
     String courseKey;
     ArrayList<String> students;
     int numOfStudents;
+    int numOfassignments;
     ArrayList<Assignment> assignments;
 
     // *** Consider getting rid of numOfStudents and use students.size() instead
@@ -20,6 +21,7 @@ public class Course {
         this.courseName = courseName;
         this.courseKey = UUID.randomUUID().toString();
         this.numOfStudents = 0;
+        this.numOfassignments = 0;
         this.students = new ArrayList<String>();
         this.assignments = new ArrayList<>();
     }
@@ -35,6 +37,7 @@ public class Course {
         FirebaseDatabase.getInstance().getReference().child("Courses").child(this.courseKey).child("courseName").setValue(this.courseName);
         FirebaseDatabase.getInstance().getReference().child("Courses").child(this.courseKey).child("courseKey").setValue(this.courseKey);
         FirebaseDatabase.getInstance().getReference().child("Courses").child(this.courseKey).child("numOfStudents").setValue(this.numOfStudents);
+        FirebaseDatabase.getInstance().getReference().child("Courses").child(this.courseKey).child("numOfassignments").setValue(this.numOfassignments);
 
         for (int i = 0; i < students.size(); i++) {
             FirebaseDatabase.getInstance().getReference().child("Courses").child(this.courseKey).child("students").child(Integer.toString(i)).setValue(students.get(i));

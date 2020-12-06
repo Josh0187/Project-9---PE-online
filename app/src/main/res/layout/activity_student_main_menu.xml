@@ -8,16 +8,6 @@
     tools:context=".studentmain.StudentMainMenu">
 
 
-    <TextView
-        android:id="@+id/teacher"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Student Main Menu"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/bt_logout"
         android:layout_width="wrap_content"
@@ -29,66 +19,30 @@
         app:layout_constraintHorizontal_bias="0.049"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.08" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="136dp"
-        android:layout_height="69dp"
-        android:onClick="locationActivity"
-        android:text="Cardio Exercise"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.603" />
-
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="136dp"
-        android:layout_height="106dp"
-        android:onClick="videoActivity"
-        android:text="Record Video of Exercise"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.769" />
+        app:layout_constraintVertical_bias="0.023" />
 
     <Button
         android:id="@+id/bt_goToEnroll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="goToEnroll"
-        android:text="Enroll in a course"
+        android:text="Enroll "
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_currentClass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Class Enrolled In:"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.076"
+        app:layout_constraintHorizontal_bias="0.817"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.148" />
+        app:layout_constraintVertical_bias="0.945" />
 
-    <TextView
-        android:id="@+id/tv_class"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="None"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_studentClasses"
+        android:layout_width="342dp"
+        android:layout_height="549dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.531"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.148" />
+        app:layout_constraintVertical_bias="0.406" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
