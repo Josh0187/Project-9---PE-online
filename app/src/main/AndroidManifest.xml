@@ -5,6 +5,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -14,9 +17,25 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".teachermain.ViewStudentStats"
+            android:label="@string/title_activity_view_student_stats"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".teachermain.nonStationarySubmission"
+            android:label="@string/title_activity_non_stationary_submission"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".teachermain.ViewSubmissionsForAssignment"
+            android:label="@string/title_activity_view_submissions_for_assignment"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".studentmain.ViewAssignments"
+            android:label="@string/title_activity_view_assignments"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".teachermain.ViewClass"
             android:label="@string/title_activity_view_class"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".studentmain.StudentMainMenu"
             android:label="@string/title_activity_student_main_menu" />
@@ -37,14 +56,15 @@
             android:name=".video.VideoSubmission"
             android:label="submit_video" />
         <activity
+            android:name=".video.PlayVideoActivity"
+            android:label="play video" />
+        <activity
             android:name=".teachermain.createCourse"
             android:label="createCourse" />
         <activity
             android:name=".teachermain.AssignmentActivity"
             android:label="Assignment" />
-        <activity
-            android:name=".studentmain.Enroll"
-             />
+        <activity android:name=".studentmain.Enroll" />
 
         <meta-data android:name="com.google.android.gms.version" />
 

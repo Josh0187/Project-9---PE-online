@@ -7,9 +7,17 @@ import com.example.peonline.R;
 import com.example.peonline.gps.GPSActivity;
 import com.example.peonline.login.MainActivity;
 import com.example.peonline.teachermain.Assignment;
+import com.example.peonline.teachermain.Class;
+import com.example.peonline.teachermain.RecycleVewAdaptor;
 import com.example.peonline.video.VideoSubmission;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,12 +29,79 @@ import java.util.List;
 
 public class StudentMainMenu extends AppCompatActivity {
 
-
+    private RecyclerView recyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_main_menu);
 
+        recyclerView = findViewById(R.id.rv_studentClasses);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+
+        // Find classID and class Name in database
+        String ID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference databaseref = database.getReference("Users/" + ID);
+
+        databaseref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<String> classIDs = new ArrayList<String>();
+                for (DataSnapshot dataSnapshot : snapshot.child("classID").getChildren()) {
+                    classIDs.add(dataSnapshot.getValue().toString());
+                }
+                final ArrayList<String> allClassIDs = classIDs;
+                if (classIDs.isEmpty()) {
+                    databaseref.removeEventListener(this);
+                }
+                else {
+                    final DatabaseReference databaseRefCourse = database.getReference("Courses/");
+
+                    databaseRefCourse.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            ArrayList<Class> allClasses = new ArrayList<Class>();
+
+                            for (String courseKey: allClassIDs) {
+                                String className = snapshot.child(courseKey).child("courseName").getValue().toString();
+                                Class newClass = new Class(className, courseKey);
+                                allClasses.add(newClass);
+                            }
+
+
+
+                            setRv(allClasses);
+                            databaseRefCourse.removeEventListener(this);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+                databaseref.removeEventListener(this);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void setRv(ArrayList<Class> classes) {
+        List<Class> listExample = new ArrayList<Class>();
+        for (Class classe: classes) {
+            listExample.add(classe);
+        }
+
+        RecycleVewAdaptorStudent adaptor = new RecycleVewAdaptorStudent(listExample);
+        recyclerView.setAdapter(adaptor);
+
+        adaptor.notifyDataSetChanged();
     }
 
     public void logOut(View view) {

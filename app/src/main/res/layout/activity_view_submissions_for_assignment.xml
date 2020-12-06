@@ -7,53 +7,40 @@
     android:layout_height="match_parent"
     tools:context=".teachermain.TeacherMainMenu">
 
-
     <TextView
-        android:id="@+id/teacher"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Teacher Main Menu"
+        android:id="@+id/tv_assignName"
+        android:layout_width="280dp"
+        android:layout_height="43dp"
+        android:text="TextView"
+        android:textSize = "30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.781"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.952" />
-
-    <Button
-        android:id="@+id/bt_logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Log out"
-        android:onClick = "logOut"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.049"
+        app:layout_constraintHorizontal_bias="0.19"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.023" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_teachMain"
-        android:layout_width="398dp"
-        android:layout_height="515dp"
+    <TextView
+        android:id="@+id/tv_submissions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submissions"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintHorizontal_bias="0.075"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.458" />
+        app:layout_constraintVertical_bias="0.096" />
 
-    <Button
-        android:id="@+id/bt_goCreateCourse"
-        android:layout_width="149dp"
-        android:layout_height="45dp"
-        android:onClick="goToCreateCourse"
-        android:text="Create Class"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_submissions"
+        android:layout_width="354dp"
+        android:layout_height="585dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.061"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.963" />
+        app:layout_constraintVertical_bias="0.664" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

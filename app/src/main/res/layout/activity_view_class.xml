@@ -5,7 +5,7 @@
     android:id="@+id/tv_email"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".teachermain.TeacherMainMenu">
+    tools:context=".teachermain.ViewClass">
 
 
     <TextView
@@ -22,12 +22,61 @@
         app:layout_constraintVertical_bias="0.023" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_students"
-        android:layout_width="343dp"
-        android:layout_height="553dp"
+        android:id="@+id/rv_assignments"
+        android:layout_width="352dp"
+        android:layout_height="301dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.367"
+        app:layout_constraintHorizontal_bias="0.423"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.23" />
+
+    <Button
+        android:id="@+id/bt_createAssignment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="createAssignment"
+        android:text="Create an assignment"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.112"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.963" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_displayAssignmentsForTeacher"
+        android:layout_width="350dp"
+        android:layout_height="196dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.409"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.829" />
+
+    <TextView
+        android:id="@+id/tv_Assignments"
+        android:layout_width="121dp"
+        android:layout_height="32dp"
+        android:text="Assignments"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.086"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.589" />
+
+    <TextView
+        android:id="@+id/tv_Students"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Students"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.07"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.094" />
 </androidx.constraintlayout.widget.ConstraintLayout>

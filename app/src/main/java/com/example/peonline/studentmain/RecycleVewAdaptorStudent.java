@@ -1,4 +1,4 @@
-package com.example.peonline.teachermain;
+package com.example.peonline.studentmain;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -10,15 +10,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.peonline.R;
-import com.example.peonline.database.Student;
+import com.example.peonline.teachermain.Class;
 
 import java.util.List;
 
-public class RecycleVewAdaptorClassView extends RecyclerView.Adapter<RecycleVewAdaptorClassView.Viewholder>  {
+public class RecycleVewAdaptorStudent extends RecyclerView.Adapter<RecycleVewAdaptorStudent.Viewholder>  {
 
     private TextView title;
-    private List<Student> classList;
-    public RecycleVewAdaptorClassView(List<Student> classlist) {
+    private TextView body;
+    private List<Class> classList;
+    public RecycleVewAdaptorStudent(List<Class> classlist) {
         this.classList = classlist;
     }
     public View.OnClickListener mListner;
@@ -27,15 +28,16 @@ public class RecycleVewAdaptorClassView extends RecyclerView.Adapter<RecycleVewA
     @NonNull
     @Override
     public Viewholder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_layoutclassview, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_layout, viewGroup, false);
         return new Viewholder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder viewholder, int position) {
-        String title = classList.get(position).getName();
+        String title = classList.get(position).getClassName();
+        String body = classList.get(position).getClassID();
 
-        viewholder.setData(title);
+        viewholder.setData(title,body);
     }
 
     @Override
@@ -50,21 +52,26 @@ public class RecycleVewAdaptorClassView extends RecyclerView.Adapter<RecycleVewA
             super(itemView);
             itemView.setOnClickListener(this);
             title = itemView.findViewById(R.id.studentname);
+            body = itemView.findViewById(R.id.distanceLabel);
+
         }
 
-        private void setData(String titleText) {
+        private void setData(String titleText, String bodyText) {
             title.setText(titleText);
+            body.setText(bodyText);
+
+
         }
 
         @Override
         public void onClick(View view) {
-            Student coolStudent = classList.get(this.getAdapterPosition());
-            String studentID = coolStudent.getClassID();
-            String studentName = coolStudent.getName();
+            Class coolClass = classList.get(this.getAdapterPosition());
+            String classID = coolClass.getClassID();
+            String className = coolClass.getClassName();
 
-            Intent i = new Intent(view.getContext(), ViewStudentStats.class);
-            i.putExtra("studentID", studentID);
-            i.putExtra("studentName", studentName);
+            Intent i = new Intent(view.getContext(), ViewAssignments.class);
+            i.putExtra("classID", classID);
+            i.putExtra("className", className);
             view.getContext().startActivity(i);
         }
     }

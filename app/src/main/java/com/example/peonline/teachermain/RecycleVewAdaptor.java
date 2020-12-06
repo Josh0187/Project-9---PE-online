@@ -51,7 +51,7 @@ public class RecycleVewAdaptor extends RecyclerView.Adapter<RecycleVewAdaptor.Vi
             super(itemView);
             itemView.setOnClickListener(this);
             title = itemView.findViewById(R.id.studentname);
-            body = itemView.findViewById(R.id.student_name);
+            body = itemView.findViewById(R.id.distanceLabel);
 
         }
 

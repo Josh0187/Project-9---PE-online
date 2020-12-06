@@ -1,6 +1,8 @@
 package com.example.peonline.teachermain;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import com.example.peonline.R;
@@ -14,6 +16,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,15 +36,10 @@ public class TeacherMainMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_main_menu);
 
-        //switch to assignment add activity
-        Button add_assignment_button = (Button) findViewById(R.id.add_assignment);
-        add_assignment_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(TeacherMainMenu.this, AssignmentActivity.class);
-                startActivity(intent);
-            }
-        });
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+        }
 
         recyclerView = findViewById(R.id.rv_teachMain);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -60,7 +59,6 @@ public class TeacherMainMenu extends AppCompatActivity {
                     classIDs.add(dataSnapshot.getValue().toString());
                 }
                 final ArrayList<String> allClassIDs = classIDs;
-                System.out.println(allClassIDs);
                 if (classIDs.isEmpty()) {
                     databaseref.removeEventListener(this);
                 }
@@ -74,7 +72,6 @@ public class TeacherMainMenu extends AppCompatActivity {
 
                                 for (String courseKey: allClassIDs) {
                                     String className = snapshot.child(courseKey).child("courseName").getValue().toString();
-                                    System.out.println(className);
                                     Class newClass = new Class(className, courseKey);
                                     allClasses.add(newClass);
                                 }

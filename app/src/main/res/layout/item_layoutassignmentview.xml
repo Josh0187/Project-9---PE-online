@@ -9,28 +9,28 @@
     android:background="#FF6">
 
     <TextView
-        android:id="@+id/studentname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/assignment_name"
+        android:layout_width="104dp"
+        android:layout_height="33dp"
         android:text="TextView"
         android:textColor="#000000"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.092"
+        app:layout_constraintHorizontal_bias="0.003"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/distanceLabel"
-        android:layout_width="270dp"
-        android:layout_height="73dp"
+        android:id="@+id/assignment_instructions"
+        android:layout_width="228dp"
+        android:layout_height="81dp"
         android:text="TextView"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.205"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/studentname"
         app:layout_constraintVertical_bias="0.02" />

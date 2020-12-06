@@ -9,17 +9,28 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.SystemClock;
+import android.security.identity.CipherSuiteNotSupportedException;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.peonline.R;
+import com.example.peonline.studentmain.StudentMainMenu;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.time.Instant;
+import java.util.ArrayList;
 
 public class GPSActivity extends AppCompatActivity {
 
@@ -30,6 +41,15 @@ public class GPSActivity extends AppCompatActivity {
     private float distance;
     private long startTime, endTime;
     private long elapsedTime;
+    double elapsedSeconds;
+    private double speed;
+    private String classKey;
+    private int assignmentNum;
+    private DatabaseReference databaseReference;
+    private TextView tv_distance;
+    private TextView tv_time;
+    private TextView tv_speed;
+
 
     private ServiceConnection connection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
@@ -50,6 +70,20 @@ public class GPSActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gps_activity);
+
+        tv_distance = findViewById(R.id.tv_distance);
+        tv_time = findViewById(R.id.tv_time);
+        tv_speed = findViewById(R.id.tv_speed);
+
+        Bundle extras = getIntent().getExtras();
+
+        final String classID = extras.getString("classID");
+        classKey = classID;
+        final int assignmentNum1 = extras.getInt("assignmentNum");
+        assignmentNum  = assignmentNum1;
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("Courses/"+classKey+"/assignments/"+Integer.toString(assignmentNum1));
+
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PackageManager.PERMISSION_GRANTED);
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PackageManager.PERMISSION_GRANTED);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -85,16 +119,57 @@ public class GPSActivity extends AppCompatActivity {
         else {
             endTime = SystemClock.elapsedRealtime();
             elapsedTime = endTime - startTime;
-            double elapsedSeconds = elapsedTime/1000;
+            elapsedSeconds = elapsedTime/1000;
             Log.d(TAG, "startGPS: " + elapsedTime + " " + elapsedSeconds);
             button.setText("Start Tracking Distance");
             distance = gpsService.getDistance();
             Log.d(TAG, "distance travelled: " + distance);
-            double speed = distance/elapsedTime;
+            speed = distance/elapsedSeconds;
             stopService(intent);
             started = false;
 
+            tv_distance.setText(Float.toString(distance));
+            tv_time.setText(Double.toString(elapsedSeconds));
+            tv_speed.setText(Double.toString(speed));
+
             Log.d(TAG, "gps stopped ");
         }
+    }
+
+    public void submit(View view) {
+        // Save submission to database
+        databaseReference = FirebaseDatabase.getInstance().getReference("Courses/"+classKey+"/assignments/"+Integer.toString(assignmentNum));
+        databaseReference.child("submissions").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("distance").setValue(distance);
+        databaseReference.child("submissions").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("speed").setValue(speed);
+        databaseReference.child("submissions").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("time").setValue(elapsedSeconds);
+
+
+        // Update student stats
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference databaseref = database.getReference("students/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/statistics");
+
+        databaseref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                long numOfnonStat = snapshot.getChildrenCount();
+
+                databaseref.child("non-stationary"+Long.toString(numOfnonStat)).child("distance").setValue(distance);
+                databaseref.child("non-stationary"+Long.toString(numOfnonStat)).child("speed").setValue(speed);
+                databaseref.child("non-stationary"+Long.toString(numOfnonStat)).child("time").setValue(elapsedSeconds);
+
+                databaseref.removeEventListener(this);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        //Go back to student main menu
+        Intent i = new Intent(this, StudentMainMenu.class);
+        startActivity(i);
+
     }
 }
