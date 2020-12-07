@@ -1,10 +1,12 @@
 package com.example.peonline.studentmain;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.peonline.database.Student;
 import com.example.peonline.teachermain.Assignment;
 import com.example.peonline.teachermain.RecycleVewAdaptorClassView;
+import com.example.peonline.teachermain.TeacherMainMenu;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.peonline.R;
@@ -73,7 +76,7 @@ public class ViewAssignments extends AppCompatActivity {
                     int assignmentNum =  snapshot.child("Courses").child(classID).child("assignments").child(Integer.toString(i)).child("assignmentNum").getValue(Integer.class);
                     Boolean assignmentStationary = snapshot.child("Courses").child(classID).child("assignments").child(Integer.toString(i)).child("stationary").getValue(Boolean.class);
 
-                    Assignment newAssignment = new Assignment(assignmentName,assignmentInstr,assignmentStationary,classID, assignmentNum);
+                    Assignment newAssignment = new Assignment(assignmentName,assignmentInstr,assignmentStationary,classID, assignmentNum,false);
                     allAssignments.add(newAssignment);
                 }
 
@@ -87,12 +90,21 @@ public class ViewAssignments extends AppCompatActivity {
 
             }
         });
-
+        Button button_back = (Button) findViewById(R.id.back_button2);
+        button_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openActivity();
+            }
+        });
 
 
     }
 
-
+    private void openActivity() {
+        Intent intent = new Intent(this, StudentMainMenu.class);
+        startActivity(intent);
+    }
 
     public void setRv(ArrayList<Assignment> classStudents) {
         List<Assignment> listExample = new ArrayList<Assignment>();

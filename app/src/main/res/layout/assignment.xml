@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".teachermain.AssignmentActivity">
+    tools:context=".teachermain.AssignmentActivity"
+    android:background="#e1f8dc">
 
     <EditText
         android:id="@+id/assignment_description"
@@ -109,8 +110,8 @@
         android:layout_height="35dp"
         android:layout_marginTop="12dp"
         android:text="Stationary Assignment"
-        android:background="#ccff"
-        android:textColor="#006666"
+        android:textColor="#fff"
+        android:background="#0095c5"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

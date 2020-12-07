@@ -1,8 +1,10 @@
 package com.example.peonline.teachermain;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.peonline.studentmain.RecycleVewAdaptorAssignments;
+import com.example.peonline.studentmain.StudentMainMenu;
 import com.example.peonline.video.Video;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.peonline.R;
@@ -127,10 +130,19 @@ public class ViewSubmissionsForAssignment extends AppCompatActivity {
         }
 
 
-
+        Button button_back = (Button) findViewById(R.id.back_button4);
+        button_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openActivity();
+            }
+        });
     }
 
-
+    private void openActivity() {
+        Intent intent = new Intent(this, ViewClass.class);
+        startActivity(intent);
+    }
     public void setRv(ArrayList<Submission> submissionList) {
         List<Submission> listExample = new ArrayList<Submission>();
         for (Submission submission: submissionList) {

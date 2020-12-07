@@ -1,5 +1,6 @@
 package com.example.peonline.teachermain;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.peonline.database.Student;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.peonline.R;
@@ -79,9 +81,19 @@ public class ViewStudentStats extends AppCompatActivity {
             }
         });
 
+        Button button_back = (Button) findViewById(R.id.back_button3);
+        button_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openActivity();
+            }
+        });
     }
 
-
+    private void openActivity() {
+        Intent intent = new Intent(this, ViewClass.class);
+        startActivity(intent);
+    }
     public void setRvS(ArrayList<Stats> studentStats) {
         List<Stats> listExample = new ArrayList<Stats>();
         for (Stats stat: studentStats) {

@@ -40,6 +40,7 @@ public class RecycleVewAdaptorAssignments extends RecyclerView.Adapter<RecycleVe
         String title = assignmentList.get(position).getAss_title();
         String body = assignmentList.get(position).getAss_body();
 
+       // viewholder.checkBox_submit.setChecked(assignmentList.get(position).isSubmited());
         viewholder.setData(title,body);
     }
 
