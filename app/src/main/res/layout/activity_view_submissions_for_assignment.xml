@@ -24,7 +24,7 @@
         android:id="@+id/tv_submissions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submissions"
+        android:text="@string/submissions"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.075"
@@ -34,8 +34,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_submissions"
-        android:layout_width="354dp"
-        android:layout_height="585dp"
+        android:layout_width="360dp"
+        android:layout_height="565dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"

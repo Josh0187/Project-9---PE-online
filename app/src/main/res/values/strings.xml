@@ -17,17 +17,25 @@
     <string name="logout">Logout</string>
     <string name="cardio_exercise">Cardio Exercise</string>
     <string name="title_activity_view_class">ViewClass</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_view_assignments">ViewAssignments</string>
-    <string name="title_activity_view_submissions_for_assignment">ViewSubmissionsForAssignment
-    </string>
+    <string name="title_activity_view_submissions_for_assignment">ViewSubmissionsForAssignment</string>
     <string name="title_activity_non_stationary_submission">nonStationarySubmission</string>
     <string name="title_activity_view_student_stats">ViewStudentStats</string>
+    <string name="create_course">Create Course</string>
+    <string name="class_name">Class name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="distance">Distance:</string>
+    <string name="time">Time:</string>
+    <string name="speed">Speed:</string>
+    <string name="enroll">Enroll</string>
+    <string name="createClass">Create class</string>
+    <string name="create_an_assignment">Create an assignment</string>
+    <string name="students">Students</string>
+    <string name="assignments">Assignments</string>
+    <string name="submissions">Submissions</string>
+    <string name="newAssignment">New Assignment</string>
+    <string name="Title">Title:</string>
+    <string name="StationaryAssignment">Stationary assignment</string>
 </resources>

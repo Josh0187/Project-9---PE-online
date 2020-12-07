@@ -23,8 +23,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -36,6 +38,11 @@ public class ViewStudentStats extends AppCompatActivity {
     private String studentName;
     private TextView name;
     private ArrayList<Stats> allStats;
+    GraphView lineGraph;
+    DataPoint[] dataPointsdistance;
+    DataPoint[] dataPointsspeed;
+    DataPoint[] dataPointstime;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,13 +67,30 @@ public class ViewStudentStats extends AppCompatActivity {
 
                 for (DataSnapshot stat: snapshot.getChildren()) {
                     Stats newStat = stat.getValue(Stats.class);
-                    System.out.println(newStat.getDistance());
-                    System.out.println(newStat.getSpeed());
-                    System.out.println(newStat.getTime());
                     allStats.add(newStat);
                 }
 
+                lineGraph = (GraphView) findViewById(R.id.graph);
+                int size = allStats.size();
+                dataPointsdistance = new DataPoint[size];
+                dataPointsspeed = new DataPoint[size];
+                dataPointstime = new DataPoint[size];
+                for (int i = 0; i < size; i++) {
+                    dataPointsdistance[i] = new DataPoint(i + 1, allStats.get(i).distance);
+                    dataPointsspeed[i] = new DataPoint(i + 1, allStats.get(i).speed);
+                    dataPointstime[i] = new DataPoint(i + 1, allStats.get(i).time);
+                }
+                LineGraphSeries<DataPoint> lineGraphSeries = new LineGraphSeries<DataPoint>(dataPointsdistance);
+                lineGraph.addSeries(lineGraphSeries);
+
+                GridLabelRenderer gridLabel = lineGraph.getGridLabelRenderer();
+                gridLabel.setHorizontalAxisTitle("Exercise #");
+                gridLabel.setVerticalAxisTitle("Distance (m)");
+
+
                 databaseRef.removeEventListener(this);
+
+
 
 
             }
@@ -77,15 +101,33 @@ public class ViewStudentStats extends AppCompatActivity {
             }
         });
 
-        GraphView lineGraph = (GraphView) findViewById(R.id.graph);
-        int size = allStats.size();
-        DataPoint[] dataPoints = new DataPoint[size];
-        for (int i = 0; i < size; i++) {
-            dataPoints[i] = new DataPoint(i + 1, allStats.get(i).distance);
-        }
-        LineGraphSeries<DataPoint> lineGraphSeries = new LineGraphSeries<DataPoint>(dataPoints);
-        lineGraph.addSeries(lineGraphSeries);
+    }
 
+    public void distanceGraph(View view) {
+        lineGraph.removeAllSeries();
+        GridLabelRenderer gridLabel = lineGraph.getGridLabelRenderer();
+        gridLabel.setHorizontalAxisTitle("Exercise #");
+        gridLabel.setVerticalAxisTitle("Distance (m)");
+        LineGraphSeries<DataPoint> lineGraphSeries = new LineGraphSeries<DataPoint>(dataPointsdistance);
+        lineGraph.addSeries(lineGraphSeries);
+    }
+
+    public void speedGraph(View view) {
+        lineGraph.removeAllSeries();
+        GridLabelRenderer gridLabel = lineGraph.getGridLabelRenderer();
+        gridLabel.setHorizontalAxisTitle("Exercise #");
+        gridLabel.setVerticalAxisTitle("Speed (m/s)");
+        LineGraphSeries<DataPoint> lineGraphSeries = new LineGraphSeries<DataPoint>(dataPointsspeed);
+        lineGraph.addSeries(lineGraphSeries);
+    }
+
+    public void timeGraph(View view) {
+        lineGraph.removeAllSeries();
+        GridLabelRenderer gridLabel = lineGraph.getGridLabelRenderer();
+        gridLabel.setHorizontalAxisTitle("Exercise #");
+        gridLabel.setVerticalAxisTitle("Time (s)");
+        LineGraphSeries<DataPoint> lineGraphSeries = new LineGraphSeries<DataPoint>(dataPointstime);
+        lineGraph.addSeries(lineGraphSeries);
     }
 
 }
