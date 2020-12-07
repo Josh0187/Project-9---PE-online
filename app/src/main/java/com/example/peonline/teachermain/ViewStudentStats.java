@@ -12,6 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.TextView;
 
@@ -21,6 +22,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -30,8 +34,8 @@ public class ViewStudentStats extends AppCompatActivity {
 
     private String studentID;
     private String studentName;
-    private RecyclerView recyclerView;
     private TextView name;
+    private ArrayList<Stats> allStats;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +49,6 @@ public class ViewStudentStats extends AppCompatActivity {
         name = findViewById(R.id.tv_studName);
         name.setText(studentName);
 
-        recyclerView = findViewById(R.id.rv_studentStats);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-
         // Find student stats and display in recycle view
         final DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("students/"+studentID+"/statistics");
 
@@ -57,7 +56,7 @@ public class ViewStudentStats extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                ArrayList<Stats> allStats = new ArrayList<Stats>();
+                allStats = new ArrayList<>();
 
                 for (DataSnapshot stat: snapshot.getChildren()) {
                     Stats newStat = stat.getValue(Stats.class);
@@ -67,7 +66,6 @@ public class ViewStudentStats extends AppCompatActivity {
                     allStats.add(newStat);
                 }
 
-                setRvS(allStats);
                 databaseRef.removeEventListener(this);
 
 
@@ -79,18 +77,15 @@ public class ViewStudentStats extends AppCompatActivity {
             }
         });
 
-    }
-
-
-    public void setRvS(ArrayList<Stats> studentStats) {
-        List<Stats> listExample = new ArrayList<Stats>();
-        for (Stats stat: studentStats) {
-            listExample.add(stat);
+        GraphView lineGraph = (GraphView) findViewById(R.id.graph);
+        int size = allStats.size();
+        DataPoint[] dataPoints = new DataPoint[size];
+        for (int i = 0; i < size; i++) {
+            dataPoints[i] = new DataPoint(i + 1, allStats.get(i).distance);
         }
+        LineGraphSeries<DataPoint> lineGraphSeries = new LineGraphSeries<DataPoint>(dataPoints);
+        lineGraph.addSeries(lineGraphSeries);
 
-        RecycleVewAdaptorStudentStats adaptor = new RecycleVewAdaptorStudentStats(listExample);
-        recyclerView.setAdapter(adaptor);
-
-        adaptor.notifyDataSetChanged();
     }
+
 }
