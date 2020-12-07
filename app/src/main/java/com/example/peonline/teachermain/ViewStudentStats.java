@@ -103,12 +103,23 @@ public class ViewStudentStats extends AppCompatActivity {
 
     }
 
+    public void distanceGraph(View view) {
+        lineGraph.removeAllSeries();
+        GridLabelRenderer gridLabel = lineGraph.getGridLabelRenderer();
+        gridLabel.setHorizontalAxisTitle("Exercise #");
+        gridLabel.setVerticalAxisTitle("Distance (m)");
+        LineGraphSeries<DataPoint> lineGraphSeries = new LineGraphSeries<DataPoint>(dataPointsdistance);
+        lineGraph.addSeries(lineGraphSeries);
+    }
 
-    public void setRvS(ArrayList<Stats> studentStats) {
-        List<Stats> listExample = new ArrayList<Stats>();
-        for (Stats stat: studentStats) {
-            listExample.add(stat);
-        }
+    public void speedGraph(View view) {
+        lineGraph.removeAllSeries();
+        GridLabelRenderer gridLabel = lineGraph.getGridLabelRenderer();
+        gridLabel.setHorizontalAxisTitle("Exercise #");
+        gridLabel.setVerticalAxisTitle("Speed (m/s)");
+        LineGraphSeries<DataPoint> lineGraphSeries = new LineGraphSeries<DataPoint>(dataPointsspeed);
+        lineGraph.addSeries(lineGraphSeries);
+    }
 
     public void timeGraph(View view) {
         lineGraph.removeAllSeries();
