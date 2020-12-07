@@ -6,14 +6,15 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp"
-    android:background="#FF6">
+    android:background="#ccff99">
 
     <TextView
         android:id="@+id/assignment_name"
-        android:layout_width="104dp"
-        android:layout_height="33dp"
+        android:layout_width="185dp"
+        android:layout_height="81dp"
         android:text="TextView"
-        android:textColor="#000000"
+        android:textColor="#1A4876"
+        android:textStyle="bold|italic"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,14 +25,15 @@
 
     <TextView
         android:id="@+id/assignment_instructions"
-        android:layout_width="228dp"
+        android:layout_width="225dp"
         android:layout_height="81dp"
         android:text="TextView"
         android:textSize="12sp"
+        android:textStyle="italic"
+        android:textColor="#000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/assignment_name"
         app:layout_constraintTop_toBottomOf="@+id/studentname"
         app:layout_constraintVertical_bias="0.02" />
 </androidx.constraintlayout.widget.ConstraintLayout>

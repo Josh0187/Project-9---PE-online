@@ -5,45 +5,71 @@
     android:id="@+id/tv_email"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".video.VideoSubmission">
+    tools:context=".video.VideoSubmission"
+    android:background="#99FF">
 
 
     <Button
         android:id="@+id/bt_record"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="101dp"
+        android:layout_height="88dp"
+        android:background="@drawable/boarder2"
+        android:onClick="captureVideo"
         android:text="Record"
-        android:onClick = "captureVideo"
+        android:textColor="#cc0000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.301"
+        app:layout_constraintHorizontal_bias="0.204"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.756" />
+        app:layout_constraintVertical_bias="0.499" />
 
     <Button
         android:id="@+id/bt_upload"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="148dp"
+        android:layout_height="37dp"
+        android:onClick="UploadVideo"
         android:text="Submit"
-        android:onClick = "UploadVideo"
+        android:background="@drawable/boarder"
+        android:textColor="#006600"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.767"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.755" />
+        app:layout_constraintVertical_bias="0.842" />
 
     <Button
         android:id="@+id/bt_play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="101dp"
+        android:layout_height="88dp"
+        android:background="@drawable/boarder2"
+        android:onClick="playVideo"
         android:text="play video"
-        android:onClick = "playVideo"
+        android:textColor="#0000cc"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.527"
+        app:layout_constraintHorizontal_bias="0.745"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.755" />
+        app:layout_constraintVertical_bias="0.499" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="381dp"
+        android:layout_height="76dp"
+        android:text="Welcome to stationary assighnment submission page."
+
+        android:gravity="center_horizontal"
+        android:textColor="#1A4876"
+        android:textSize="25sp"
+        android:textStyle="bold|italic"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.163" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -43,7 +43,9 @@
         app:layout_constraintHorizontal_bias="0.112"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.963" />
+        app:layout_constraintVertical_bias="0.963"
+        android:textStyle="bold"
+        android:background="@drawable/boarder"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_displayAssignmentsForTeacher"

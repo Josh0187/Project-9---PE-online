@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp"
-    android:background="#FF6">
+    android:background="#ccccff">
 
     <TextView
         android:id="@+id/distanceLabel"
@@ -14,6 +14,9 @@
         android:layout_height="16dp"
         android:layout_marginBottom="48dp"
         android:text="Distance:"
+        android:gravity="center_horizontal"
+        android:textColor="#1A4876"
+        android:textStyle="bold|italic"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,6 +29,9 @@
         android:layout_height="14dp"
         android:text="Speed:"
         android:textSize="12sp"
+        android:gravity="center_horizontal"
+        android:textColor="#1A4876"
+        android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -38,6 +44,9 @@
         android:layout_width="75dp"
         android:layout_height="16dp"
         android:text="Time:"
+        android:gravity="center_horizontal"
+        android:textColor="#1A4876"
+        android:textStyle="bold|italic"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
