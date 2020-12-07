@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -32,6 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 public class GPSActivity extends AppCompatActivity {
 
     private static final String TAG = "gpsactivity";
+    Boolean stopped = false;
     private boolean started = false;
     private GPSService gpsService;
     private boolean bound = false;
@@ -46,7 +48,6 @@ public class GPSActivity extends AppCompatActivity {
     private TextView tv_distance;
     private TextView tv_time;
     private TextView tv_speed;
-    private PowerManager.WakeLock wakeLock = null;
 
 
     private ServiceConnection connection = new ServiceConnection() {
@@ -104,7 +105,6 @@ public class GPSActivity extends AppCompatActivity {
         Button button = findViewById(R.id.GPSTracking);
         Intent intent = new Intent(this, GPSService.class);
         if (!started) {
-            wakeLock.acquire();
             startTime = SystemClock.elapsedRealtime();
             button.setText("Stop Tracking Distance");
             startService(intent);
@@ -116,7 +116,7 @@ public class GPSActivity extends AppCompatActivity {
             Log.d(TAG, "gps started ");
         }
         else {
-            wakeLock.release();
+            stopped = true;
             endTime = SystemClock.elapsedRealtime();
             elapsedTime = endTime - startTime;
             elapsedSeconds = elapsedTime/1000;
@@ -137,39 +137,45 @@ public class GPSActivity extends AppCompatActivity {
     }
 
     public void submit(View view) {
-        // Save submission to database
-        databaseReference = FirebaseDatabase.getInstance().getReference("Courses/"+classKey+"/assignments/"+Integer.toString(assignmentNum));
-        databaseReference.child("submissions").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("distance").setValue(distance);
-        databaseReference.child("submissions").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("speed").setValue(speed);
-        databaseReference.child("submissions").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("time").setValue(elapsedSeconds);
+        if (stopped) {
+            // Save submission to database
+            databaseReference = FirebaseDatabase.getInstance().getReference("Courses/" + classKey + "/assignments/" + Integer.toString(assignmentNum));
+            databaseReference.child("submissions").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("distance").setValue(distance);
+            databaseReference.child("submissions").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("speed").setValue(speed);
+            databaseReference.child("submissions").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("time").setValue(elapsedSeconds);
 
 
-        // Update student stats
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference databaseref = database.getReference("students/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/statistics");
+            // Update student stats
+            final FirebaseDatabase database = FirebaseDatabase.getInstance();
+            final DatabaseReference databaseref = database.getReference("students/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/statistics");
 
-        databaseref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                long numOfnonStat = snapshot.getChildrenCount();
+            databaseref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    long numOfnonStat = snapshot.getChildrenCount();
 
-                databaseref.child("non-stationary"+Long.toString(numOfnonStat)).child("distance").setValue(distance);
-                databaseref.child("non-stationary"+Long.toString(numOfnonStat)).child("speed").setValue(speed);
-                databaseref.child("non-stationary"+Long.toString(numOfnonStat)).child("time").setValue(elapsedSeconds);
+                    databaseref.child("non-stationary" + Long.toString(numOfnonStat)).child("distance").setValue(distance);
+                    databaseref.child("non-stationary" + Long.toString(numOfnonStat)).child("speed").setValue(speed);
+                    databaseref.child("non-stationary" + Long.toString(numOfnonStat)).child("time").setValue(elapsedSeconds);
 
-                databaseref.removeEventListener(this);
+                    databaseref.removeEventListener(this);
 
-            }
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
 
-        //Go back to student main menu
-        Intent i = new Intent(this, StudentMainMenu.class);
-        startActivity(i);
+            //Go back to student main menu
+            Intent i = new Intent(this, StudentMainMenu.class);
+            startActivity(i);
+
+        }
+        else {
+            Toast.makeText(getApplicationContext(),"Please stop the GPS before submitting",Toast.LENGTH_SHORT).show();
+        }
 
     }
 }
