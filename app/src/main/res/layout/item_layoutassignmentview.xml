@@ -6,15 +6,15 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp"
-    android:background="#FF6">
+    android:background="#ccff99">
 
     <TextView
         android:id="@+id/assignment_name"
-        android:layout_width="104dp"
-        android:layout_height="33dp"
+        android:layout_width="145dp"
+        android:layout_height="36dp"
         android:text="TextView"
-        android:textColor="#000000"
-        android:textSize="24sp"
+        android:textColor="#000"
+        android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.003"
@@ -24,14 +24,26 @@
 
     <TextView
         android:id="@+id/assignment_instructions"
-        android:layout_width="228dp"
+        android:layout_width="225dp"
         android:layout_height="81dp"
         android:text="TextView"
-        android:textSize="12sp"
+        android:textSize="10sp"
+        android:textStyle="italic"
+        android:textColor="#000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/assignment_name"
         app:layout_constraintTop_toBottomOf="@+id/studentname"
         app:layout_constraintVertical_bias="0.02" />
+
+    <CheckBox
+        android:id="@+id/checkBox_submit"
+        android:layout_width="144dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:text="submited"
+        app:layout_constraintEnd_toStartOf="@+id/assignment_instructions"
+        app:layout_constraintHorizontal_bias="0.09"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/assignment_name" />
 </androidx.constraintlayout.widget.ConstraintLayout>

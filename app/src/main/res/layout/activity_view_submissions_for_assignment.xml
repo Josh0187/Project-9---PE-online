@@ -5,14 +5,18 @@
     android:id="@+id/tv_email"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".teachermain.TeacherMainMenu">
+    tools:context=".teachermain.ViewSubmissionsForAssignment"
+    android:background="#e1f8dc">
 
     <TextView
         android:id="@+id/tv_assignName"
         android:layout_width="280dp"
         android:layout_height="43dp"
+        android:gravity="left"
+        android:textColor="#000"
         android:text="TextView"
         android:textSize = "30dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.19"
@@ -24,7 +28,11 @@
         android:id="@+id/tv_submissions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/submissions"
+        android:text="Submissions"
+        android:gravity="center_horizontal"
+        android:textColor="#1A4876"
+        android:textSize="25sp"
+        android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.075"
@@ -34,13 +42,28 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_submissions"
-        android:layout_width="360dp"
-        android:layout_height="565dp"
+        android:layout_width="371dp"
+        android:layout_height="542dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintHorizontal_bias="0.373"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.664" />
+        app:layout_constraintVertical_bias="0.533" />
+
+    <Button
+        android:id="@+id/back_button4"
+        android:layout_width="99dp"
+        android:layout_height="40dp"
+        android:background="@drawable/boarder"
+        android:text="Go Back"
+        android:textColor="#000"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.108"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.966" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.peonline.R;
@@ -113,7 +114,7 @@ public class ViewClass extends AppCompatActivity {
                     int assignmentNum =  snapshot.child("Courses").child(classID).child("assignments").child(Integer.toString(i)).child("assignmentNum").getValue(Integer.class);
                     Boolean assignmentStationary = snapshot.child("Courses").child(classID).child("assignments").child(Integer.toString(i)).child("stationary").getValue(Boolean.class);
 
-                    Assignment newAssignment = new Assignment(assignmentName,assignmentInstr,assignmentStationary,classID, assignmentNum);
+                    Assignment newAssignment = new Assignment(assignmentName,assignmentInstr,assignmentStationary,classID, assignmentNum,false);
                     allAssignments.add(newAssignment);
                 }
 
@@ -128,9 +129,20 @@ public class ViewClass extends AppCompatActivity {
             }
         });
 
+        Button button_back = (Button) findViewById(R.id.back_button);
+        button_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openActivity();
+            }
+        });
 
 
+    }
 
+    private void openActivity() {
+        Intent intent = new Intent(this,TeacherMainMenu.class);
+        startActivity(intent);
     }
 
 

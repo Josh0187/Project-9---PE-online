@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         emailID = findViewById(R.id.et_email);
         password = findViewById(R.id.et_password);
 
-        //FirebaseAuth.getInstance().signOut();
+       // FirebaseAuth.getInstance().signOut();
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             User user = snapshot.getValue(User.class);
                             // student account
-                            if (user.getTeacher() == false) {
+                            if (!user.getTeacher()) {
                                 Intent intToStudentMainMenu = new Intent(MainActivity.this, StudentMainMenu.class);
                                 startActivity(intToStudentMainMenu);
                             }
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 User user = dataSnapshot.getValue(User.class);
                                 // student account
-                                if (user.getTeacher() == false) {
+                                if (!user.getTeacher()) {
                                     Intent intToStudentMainMenu = new Intent(MainActivity.this, StudentMainMenu.class);
                                     startActivity(intToStudentMainMenu);
                                 }

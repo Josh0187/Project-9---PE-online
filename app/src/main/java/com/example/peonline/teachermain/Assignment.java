@@ -16,16 +16,16 @@ public class Assignment {
     private String Ass_title;
     private String Ass_body;
     private boolean Stationary;
-    private int numOfsubmissions;
+    private boolean submited;
     private int assignmentNum;
     private ArrayList<String> submissions;
 
-    public Assignment(String ass_title, String ass_body, boolean checkbox, String CourseKey, int assignmentNum) {
+    public Assignment(String ass_title, String ass_body, boolean checkbox, String CourseKey, int assignmentNum, boolean submit_checkBox) {
         courseKey = CourseKey;
         Ass_title = ass_title;
         Ass_body = ass_body;
         Stationary = checkbox;
-        numOfsubmissions = 0;
+        submited = submit_checkBox;
         this.assignmentNum = assignmentNum;
         submissions = new ArrayList<String>();
     }
@@ -52,4 +52,8 @@ public class Assignment {
     }
 
     public boolean isStationary() { return Stationary; }
+
+    public boolean isSubmited() { return submited; }
+
+    public void setSubmited() { this.submited = true; }
 }

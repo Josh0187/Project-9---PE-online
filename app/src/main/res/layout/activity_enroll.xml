@@ -5,16 +5,18 @@
     android:id="@+id/tv_email"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".studentmain.Enroll">
+    tools:context=".studentmain.Enroll"
+    android:background="#CCFFCC">
 
 
     <EditText
         android:id="@+id/et_enrollKey"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="389dp"
+        android:layout_height="61dp"
+        android:background="@drawable/boarder2"
         android:ems="10"
+        android:hint="Please enter course key..."
         android:inputType="textPersonName"
-        android:hint="Course key"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,13 +26,16 @@
         android:id="@+id/bt_enroll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:onClick="enroll"
         android:text="Enroll"
-        android:onClick = "enroll"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.578" />
+        app:layout_constraintTop_toBottomOf="@+id/et_enrollKey"
+        app:layout_constraintVertical_bias="0.05"
+        android:background="@drawable/boarder"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

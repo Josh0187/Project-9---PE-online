@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.peonline.R;
@@ -33,6 +34,7 @@ public class CreateCourse extends AppCompatActivity {
         className = findViewById(R.id.et_className);
 
     }
+
 
 
     public void createClass(View view) {
@@ -68,6 +70,7 @@ public class CreateCourse extends AppCompatActivity {
 
             }
         });
+
         Intent teacherMainIntent = new Intent(CreateCourse.this, TeacherMainMenu.class);
         startActivity(teacherMainIntent);
     }

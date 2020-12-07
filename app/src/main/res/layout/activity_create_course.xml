@@ -5,30 +5,32 @@
     android:id="@+id/tv_email"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".teachermain.CreateCourse">
+    tools:context=".teachermain.CreateCourse"
+    android:background="#99FF">
 
     <Button
         android:id="@+id/bt_createClass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/create_course"
-        android:onClick = "createClass"
+        android:onClick="createClass"
+        android:text="Create Course"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.612" />
+        app:layout_constraintTop_toBottomOf="@+id/et_className"
+        app:layout_constraintVertical_bias="0.147"
+        android:background="@drawable/boarder"/>
 
     <EditText
         android:id="@+id/et_className"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="389dp"
+        android:layout_height="61dp"
+        android:background="@drawable/boarder2"
         android:ems="10"
+        android:hint="Please enter class name..."
         android:inputType="textPersonName"
-        android:hint="@string/class_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:autofillHints="" />
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
