@@ -129,14 +129,6 @@ public class ViewClass extends AppCompatActivity {
             }
         });
 
-        Button button_back = (Button) findViewById(R.id.back_button);
-        button_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openActivity();
-            }
-        });
-
 
     }
 

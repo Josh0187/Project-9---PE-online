@@ -9,6 +9,7 @@ import com.example.peonline.login.MainActivity;
 import com.example.peonline.teachermain.Assignment;
 import com.example.peonline.teachermain.Class;
 import com.example.peonline.teachermain.RecycleVewAdaptor;
+import com.example.peonline.teachermain.ViewStudentStats;
 import com.example.peonline.video.VideoSubmission;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -30,6 +31,7 @@ import java.util.List;
 public class StudentMainMenu extends AppCompatActivity {
 
     private RecyclerView recyclerView;
+    private String studentName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +50,7 @@ public class StudentMainMenu extends AppCompatActivity {
         databaseref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                studentName = snapshot.child("name").getValue().toString();
                 ArrayList<String> classIDs = new ArrayList<String>();
                 for (DataSnapshot dataSnapshot : snapshot.child("classID").getChildren()) {
                     classIDs.add(dataSnapshot.getValue().toString());
@@ -131,7 +134,10 @@ public class StudentMainMenu extends AppCompatActivity {
 
     }
 
-    public void viewSelfStats(View view) {
-
+    public void ViewMyStats(View view) {
+        Intent intentToStats = new Intent(this, ViewStudentStats.class);
+        intentToStats.putExtra("studentID", FirebaseAuth.getInstance().getCurrentUser().getUid());
+        intentToStats.putExtra("studentName", studentName);
+        startActivity(intentToStats);
     }
 }
